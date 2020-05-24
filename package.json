@@ -21,8 +21,8 @@
     "watch-node": "nodemon ./src/index.ts",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "test": "jest --passWithNoTests",
-    "test:watch": "jest --watch --passWithNoTests"
+    "test": "jest --passWithNoTests --config ./config/jest/jest.config.js",
+    "test:watch": "jest --watch --passWithNoTests --config ./config/jest/jest.config.js"
   },
   "husky": {
     "hooks": {
