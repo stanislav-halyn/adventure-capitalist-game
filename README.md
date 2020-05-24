@@ -7,7 +7,13 @@ Adventure Capitalist is an idle business sim-game. The basic idea is to purchase
 
 
 # Commits convention
-This repo is using [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), so in order to create a new commit you should type in your console:
+This repo is using [commitizen](https://github.com/commitizen/cz-cli) to follow [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). To be able to commit into this repo, you should run following commands:
+```
+  npm install -g commitizen
+  npm install
+```
+
+In order to create a new commit you should type in your console:
 ```
   git cz
 ```
