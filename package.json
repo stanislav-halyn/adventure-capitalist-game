@@ -16,8 +16,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS -g './config/git/commitlint.js'"
+    }
+  },
   "devDependencies": {
-    "cz-customizable": "6.2.0"
+    "@commitlint/cli": "8.3.5",
+    "cz-customizable": "6.2.0",
+    "husky": "4.2.5"
   },
   "config": {
     "commitizen": {
