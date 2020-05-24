@@ -1,0 +1,19 @@
+{
+  "name": "adventure-capitalist-game",
+  "version": "0.0.0",
+  "description": "Adventure Capitalist is an idle business sim-game. The basic idea is to purchase a business, win capital from that business, upgrade the business and then purchase more businesses.",
+  "main": "./dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stanislav-halyn/adventure-capitalist-game.git"
+  },
+  "author": "Stanislav Halyn <stasgalin@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stanislav-halyn/adventure-capitalist-game/issues"
+  },
+  "homepage": "https://github.com/stanislav-halyn/adventure-capitalist-game#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
