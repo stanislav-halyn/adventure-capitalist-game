@@ -20,7 +20,9 @@
     "watch-ts": "tsc --watch",
     "watch-node": "nodemon ./src/index.ts",
     "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix"
+    "lint:fix": "eslint . --ext .ts --fix",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch --passWithNoTests"
   },
   "husky": {
     "hooks": {
