@@ -1,0 +1,52 @@
+{
+  "name": "adventure-capitalist-game",
+  "version": "0.0.0",
+  "description": "Adventure Capitalist is an idle business sim-game. The basic idea is to purchase a business, win capital from that business, upgrade the business and then purchase more businesses.",
+  "main": "./dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stanislav-halyn/adventure-capitalist-game.git"
+  },
+  "author": "Stanislav Halyn <stasgalin@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stanislav-halyn/adventure-capitalist-game/issues"
+  },
+  "homepage": "https://github.com/stanislav-halyn/adventure-capitalist-game#readme",
+  "scripts": {
+    "start:prod": "npm run build-ts && node ./dist/index.js",
+    "start:dev": "npm run watch-node",
+    "build-ts": "tsc",
+    "watch-ts": "tsc --watch",
+    "watch-node": "nodemon ./src/index.ts",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS -g './config/git/commitlint.js'"
+    }
+  },
+  "engines": {
+    "node": ">11.15.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "8.3.5",
+    "@typescript-eslint/eslint-plugin": "3.0.0",
+    "@typescript-eslint/parser": "3.0.0",
+    "cz-customizable": "6.2.0",
+    "eslint": "7.1.0",
+    "husky": "4.2.5",
+    "nodemon": "2.0.4",
+    "ts-node": "8.10.1",
+    "typescript": "3.9.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "config/git/commitizen.js"
+    }
+  }
+}
