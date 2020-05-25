@@ -145,4 +145,46 @@ describe('Player class does the following sections correctly:', () => {
         .not.toBeCalled();
     });
   });
+
+  describe('process of gaining the capital', () => {
+    test('can earn money from a business', () => {
+      jest.spyOn(Player.prototype, 'getCapital')
+        .mockImplementationOnce(() => 150)
+        .mockImplementationOnce(() => 150);
+
+      jest.spyOn(Business.prototype, 'getPrice').mockImplementationOnce(() => 50);
+
+      const gainCapitaSpy = jest.spyOn(Business.prototype, 'gainCapital');
+      gainCapitaSpy.mockImplementation(cb => cb(10));
+
+      const playerInstance = new Player();
+
+      playerInstance.buyBusiness(businessId);
+
+      expect(playerInstance.getCapital())
+        .toEqual(100);
+
+      playerInstance.gainCapital(businessId);
+
+      expect(gainCapitaSpy)
+        .toBeCalled();
+
+      expect(gainCapitaSpy)
+        .toBeCalledWith(expect.any(Function));
+
+      expect(playerInstance.getCapital())
+        .toEqual(110);
+    });
+
+    test('cannot earn money from a business if a user doesn\'t own it', () => {
+      const gainCapitaSpy = jest.spyOn(Business.prototype, 'gainCapital');
+
+      const playerInstance = new Player();
+
+      playerInstance.gainCapital(businessId);
+
+      expect(gainCapitaSpy)
+        .not.toBeCalled();
+    });
+  });
 });

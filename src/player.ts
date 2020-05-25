@@ -12,6 +12,7 @@ interface IPlayer {
   hasEnoughMoney: (price: number) => boolean,
   buyBusiness: (businessId: BusinessIdType) => void
   upgradeBusiness(businessId: BusinessIdType): void
+  gainCapital: (businessId: BusinessIdType) => void
   isOwnerOfBusiness: (businessId: BusinessIdType) => boolean
 }
 
@@ -83,6 +84,19 @@ class Player implements IPlayer {
 
     const newCapital = this._calculateNewCapital(businessPrice);
     this._setCapital(newCapital);
+  }
+
+  gainCapital(businessId: BusinessIdType): void {
+    const businessInstance = this._getBusiness(businessId);
+
+    if (!businessInstance) {
+      console.log('You don\'t own this business');
+      return;
+    }
+
+    businessInstance.gainCapital(gainedMoney => {
+      this._setCapital(this.getCapital() + gainedMoney);
+    });
   }
 
   isOwnerOfBusiness(businessId: BusinessIdType): boolean {
