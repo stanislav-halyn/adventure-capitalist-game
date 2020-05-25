@@ -36,9 +36,9 @@ afterEach(() => {
 });
 
 
-describe('Player class does the following sections correctly:', () => {
-  describe('process of buying a business', () => {
-    test('can buy a business if there\'s enough money', () => {
+describe('#player.test.ts', () => {
+  describe('.buyBusiness()', () => {
+    test('should be able to buy a business', () => {
       const playerInstance = new Player();
 
       const initialCapital = 150;
@@ -57,7 +57,7 @@ describe('Player class does the following sections correctly:', () => {
     });
 
 
-    test('cannot buy a business if there\'s not enough capital', () => {
+    test('shouldn\'t be able to buy a business if there\'s not enough capital', () => {
       const playerInstance = new Player();
 
       const initialCapital = 40;
@@ -94,8 +94,8 @@ describe('Player class does the following sections correctly:', () => {
     });
   });
 
-  describe('process of upgrading a business', () => {
-    test('can upgrade business if there\'s enough money', () => {
+  describe('.upgradeBusiness()', () => {
+    test('should upgrade business', () => {
       const playerInstance = new Player();
 
       jest.spyOn(playerInstance, 'capital', 'get')
@@ -105,7 +105,6 @@ describe('Player class does the following sections correctly:', () => {
       jest.spyOn(Business.prototype, 'getPrice').mockImplementationOnce(() => 50);
 
       const upgradeBusinessSpy = jest.spyOn(Business.prototype, 'upgrade');
-
 
       playerInstance.buyBusiness(businessId);
       playerInstance.upgradeBusiness(businessId);
@@ -117,7 +116,7 @@ describe('Player class does the following sections correctly:', () => {
         .toEqual(50);
     });
 
-    test('cannot upgrade business if there\'s not enough money', () => {
+    test('shouldn\'t upgrade business if there\'s not enough money', () => {
       const playerInstance = new Player();
 
       jest.spyOn(playerInstance, 'capital', 'get')
@@ -133,12 +132,15 @@ describe('Player class does the following sections correctly:', () => {
 
       expect(upgradeBusinessSpy)
         .not.toBeCalled();
+
+      expect(playerInstance.capital)
+        .toEqual(0);
     });
 
-    test('cannot upgrade business if a user doesn\'t own it', () => {
-      const upgradeBusinessSpy = jest.spyOn(Business.prototype, 'upgrade');
-
+    test('shouldn\'t upgrade business if a user doesn\'t own it', () => {
       const playerInstance = new Player();
+
+      const upgradeBusinessSpy = jest.spyOn(Business.prototype, 'upgrade');
 
       playerInstance.upgradeBusiness(businessId);
 
@@ -147,8 +149,8 @@ describe('Player class does the following sections correctly:', () => {
     });
   });
 
-  describe('process of gaining the capital', () => {
-    test('can earn money from a business', () => {
+  describe('.gainCapital()', () => {
+    test('should gain money from a business', () => {
       const playerInstance = new Player();
 
       jest.spyOn(playerInstance, 'capital', 'get')
@@ -177,7 +179,7 @@ describe('Player class does the following sections correctly:', () => {
         .toEqual(110);
     });
 
-    test('cannot earn money from a business if a user doesn\'t own it', () => {
+    test('shouldn\'t gain money from a business if a user doesn\'t own it', () => {
       const gainCapitaSpy = jest.spyOn(Business.prototype, 'gainCapital');
 
       const playerInstance = new Player();
