@@ -50,7 +50,7 @@ class Player implements IPlayer {
       return;
     }
 
-    const businessInstance = new Business();
+    const businessInstance = new Business(businessConfig);
     const newCapital = this._calculateNewCapital(businessConfig.price);
 
     this._setCapital(newCapital);

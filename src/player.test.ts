@@ -20,7 +20,9 @@ describe('Player class does the following sections correctly:', () => {
   const businessConfig: BusinessConfigType = {
     id: businessId,
     price: 50,
-    title: 'Lemons'
+    title: 'Lemons',
+    priceMultiplier: 0.07,
+    gainCapitalDurationMs: 1000
   };
 
 
