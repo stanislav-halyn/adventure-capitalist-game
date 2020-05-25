@@ -7,7 +7,7 @@ class BusinessService {
     return Database.getListOfBusinessesConfigs();
   }
 
-  static getBusinessConfigById(businessId: BusinessIdType): BusinessConfigType {
+  static getBusinessConfigById(businessId: BusinessIdType): BusinessConfigType | undefined {
     return Database.getBusinessConfigById(businessId);
   }
 }
