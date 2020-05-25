@@ -1,8 +1,8 @@
 // Business class
-import {
-  Business,
-  BusinessConfigType
-} from './business';
+import Business from './business';
+
+// Typings
+import { BusinessConfigType } from '../typings';
 
 
 beforeEach(() => {

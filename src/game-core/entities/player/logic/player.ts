@@ -1,20 +1,14 @@
-// Business
+// Entities
 import {
   Business,
-  BusinessIdType,
-  IBusiness
-} from './business';
+  BusinessService,
+  IBusiness,
+  BusinessIdType
+} from '../../business';
 
-import BusinessService from './business.service';
+// Typings
+import { IPlayer } from '../typings';
 
-interface IPlayer {
-  capital: number
-  hasEnoughMoney: (price: number) => boolean
-  isOwnerOfBusiness: (businessId: BusinessIdType) => boolean
-  buyBusiness: (businessId: BusinessIdType) => void
-  upgradeBusiness(businessId: BusinessIdType): void
-  gainCapital: (businessId: BusinessIdType) => void
-}
 
 class Player implements IPlayer {
   private _capital = 0
@@ -60,16 +54,14 @@ class Player implements IPlayer {
       return;
     }
 
-    const businessPrice = businessInstance.getPrice();
-
-    if (!this.hasEnoughMoney(businessPrice)) {
+    if (!this.hasEnoughMoney(businessInstance.price)) {
       console.log('There\'s not enough money to upgrade this business');
       return;
     }
 
-    businessInstance.upgrade();
+    this._spendMoney(businessInstance.price);
 
-    this._spendMoney(businessPrice);
+    businessInstance.upgrade();
   }
 
   gainCapital(businessId: BusinessIdType): void {

@@ -1,5 +1,8 @@
-import { BusinessIdType, BusinessConfigType } from './business';
-import Database from './database';
+// Typings
+import { BusinessIdType, BusinessConfigType } from '../typings';
+
+// Database
+import { Database } from '@src/database';
 
 
 class BusinessService {

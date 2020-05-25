@@ -2,7 +2,7 @@
 import Database from './database';
 
 
-jest.mock('./businesses-configs.json', () => ([{
+jest.mock('../config/businesses-data.json', () => ([{
   id: 0,
   price: 4,
   title: 'Lemons',

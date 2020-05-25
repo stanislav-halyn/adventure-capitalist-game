@@ -2,13 +2,14 @@
 import BusinessService from './business.service';
 
 // Database
-import Database from './database';
+import { Database } from '@src/database';
 
-// Business
-import { BusinessConfigType } from './business';
+// Typings
+import { BusinessConfigType } from '../typings';
 
 
-jest.mock('./database');
+jest.mock('@src/database');
+
 
 beforeEach(() => {
   jest.clearAllMocks();
