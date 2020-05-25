@@ -39,45 +39,48 @@ afterEach(() => {
 describe('Player class does the following sections correctly:', () => {
   describe('process of buying a business', () => {
     test('can buy a business if there\'s enough money', () => {
+      const playerInstance = new Player();
+
       const initialCapital = 150;
 
-      jest.spyOn(Player.prototype, 'getCapital')
+      jest.spyOn(playerInstance, 'capital', 'get')
         .mockImplementationOnce(() => initialCapital)
         .mockImplementationOnce(() => initialCapital);
 
-      const playerInstance = new Player();
       playerInstance.buyBusiness(businessId);
 
       expect(playerInstance.isOwnerOfBusiness(businessId))
         .toBeTruthy();
 
-      expect(playerInstance.getCapital())
+      expect(playerInstance.capital)
         .toEqual(100);
     });
 
 
     test('cannot buy a business if there\'s not enough capital', () => {
+      const playerInstance = new Player();
+
       const initialCapital = 40;
 
-      jest.spyOn(Player.prototype, 'getCapital')
+      jest.spyOn(playerInstance, 'capital', 'get')
         .mockImplementationOnce(() => initialCapital)
         .mockImplementationOnce(() => initialCapital);
 
-      const playerInstance = new Player();
       playerInstance.buyBusiness(businessId);
 
       expect(playerInstance.isOwnerOfBusiness(businessId))
         .toBeFalsy();
 
-      expect(playerInstance.getCapital())
+      expect(playerInstance.capital)
         .toEqual(initialCapital);
     });
 
 
     test('calls functions with correct arguments', () => {
-      jest.spyOn(Player.prototype, 'getCapital').mockImplementation(() => 150);
-
       const playerInstance = new Player();
+
+      jest.spyOn(playerInstance, 'capital', 'get').mockImplementation(() => 150);
+
       playerInstance.buyBusiness(businessId);
 
       expect(BusinessService.getBusinessConfigById)
@@ -88,15 +91,14 @@ describe('Player class does the following sections correctly:', () => {
 
       expect(Business)
         .toBeCalledWith(businessConfig);
-
-      expect(Player.prototype.getCapital)
-        .toBeCalledTimes(2);
     });
   });
 
   describe('process of upgrading a business', () => {
     test('can upgrade business if there\'s enough money', () => {
-      jest.spyOn(Player.prototype, 'getCapital')
+      const playerInstance = new Player();
+
+      jest.spyOn(playerInstance, 'capital', 'get')
         .mockImplementationOnce(() => 150)
         .mockImplementationOnce(() => 150);
 
@@ -104,7 +106,6 @@ describe('Player class does the following sections correctly:', () => {
 
       const upgradeBusinessSpy = jest.spyOn(Business.prototype, 'upgrade');
 
-      const playerInstance = new Player();
 
       playerInstance.buyBusiness(businessId);
       playerInstance.upgradeBusiness(businessId);
@@ -112,20 +113,20 @@ describe('Player class does the following sections correctly:', () => {
       expect(upgradeBusinessSpy)
         .toBeCalled();
 
-      expect(playerInstance.getCapital())
+      expect(playerInstance.capital)
         .toEqual(50);
     });
 
     test('cannot upgrade business if there\'s not enough money', () => {
-      jest.spyOn(Player.prototype, 'getCapital')
+      const playerInstance = new Player();
+
+      jest.spyOn(playerInstance, 'capital', 'get')
         .mockImplementationOnce(() => 50)
         .mockImplementationOnce(() => 50);
 
       jest.spyOn(Business.prototype, 'getPrice').mockImplementationOnce(() => 50);
 
       const upgradeBusinessSpy = jest.spyOn(Business.prototype, 'upgrade');
-
-      const playerInstance = new Player();
 
       playerInstance.buyBusiness(businessId);
       playerInstance.upgradeBusiness(businessId);
@@ -148,7 +149,9 @@ describe('Player class does the following sections correctly:', () => {
 
   describe('process of gaining the capital', () => {
     test('can earn money from a business', () => {
-      jest.spyOn(Player.prototype, 'getCapital')
+      const playerInstance = new Player();
+
+      jest.spyOn(playerInstance, 'capital', 'get')
         .mockImplementationOnce(() => 150)
         .mockImplementationOnce(() => 150);
 
@@ -157,11 +160,9 @@ describe('Player class does the following sections correctly:', () => {
       const gainCapitaSpy = jest.spyOn(Business.prototype, 'gainCapital');
       gainCapitaSpy.mockImplementation(cb => cb(10));
 
-      const playerInstance = new Player();
-
       playerInstance.buyBusiness(businessId);
 
-      expect(playerInstance.getCapital())
+      expect(playerInstance.capital)
         .toEqual(100);
 
       playerInstance.gainCapital(businessId);
@@ -172,7 +173,7 @@ describe('Player class does the following sections correctly:', () => {
       expect(gainCapitaSpy)
         .toBeCalledWith(expect.any(Function));
 
-      expect(playerInstance.getCapital())
+      expect(playerInstance.capital)
         .toEqual(110);
     });
 

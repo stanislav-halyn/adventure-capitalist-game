@@ -8,12 +8,12 @@ import {
 import BusinessService from './business.service';
 
 interface IPlayer {
-  getCapital: () => number,
-  hasEnoughMoney: (price: number) => boolean,
+  capital: number
+  hasEnoughMoney: (price: number) => boolean
+  isOwnerOfBusiness: (businessId: BusinessIdType) => boolean
   buyBusiness: (businessId: BusinessIdType) => void
   upgradeBusiness(businessId: BusinessIdType): void
   gainCapital: (businessId: BusinessIdType) => void
-  isOwnerOfBusiness: (businessId: BusinessIdType) => boolean
 }
 
 class Player implements IPlayer {
@@ -21,28 +21,16 @@ class Player implements IPlayer {
 
   private _businessesMap = new Map<BusinessIdType, IBusiness>()
 
-  private _getBusiness(businessId: BusinessIdType) {
-    return this._businessesMap.get(businessId);
-  }
-
-  private _setBusiness(businessId: BusinessIdType, businessInstance: IBusiness) {
-    this._businessesMap.set(businessId, businessInstance);
-  }
-
-  private _setCapital(newCapital: number): void {
-    this._capital = newCapital;
-  }
-
-  private _calculateNewCapital(price: number): number {
-    return this.getCapital() - price;
-  }
-
-  getCapital(): number {
+  get capital(): number {
     return this._capital;
   }
 
   hasEnoughMoney(price: number): boolean {
-    return this.getCapital() >= price;
+    return this.capital >= price;
+  }
+
+  isOwnerOfBusiness(businessId: BusinessIdType): boolean {
+    return !!this._getBusiness(businessId);
   }
 
   buyBusiness(businessId: BusinessIdType): void {
@@ -59,9 +47,8 @@ class Player implements IPlayer {
     }
 
     const businessInstance = new Business(businessConfig);
-    const newCapital = this._calculateNewCapital(businessConfig.price);
 
-    this._setCapital(newCapital);
+    this._spendMoney(businessConfig.price);
     this._setBusiness(businessConfig.id, businessInstance);
   }
 
@@ -82,8 +69,7 @@ class Player implements IPlayer {
 
     businessInstance.upgrade();
 
-    const newCapital = this._calculateNewCapital(businessPrice);
-    this._setCapital(newCapital);
+    this._spendMoney(businessPrice);
   }
 
   gainCapital(businessId: BusinessIdType): void {
@@ -95,12 +81,24 @@ class Player implements IPlayer {
     }
 
     businessInstance.gainCapital(gainedMoney => {
-      this._setCapital(this.getCapital() + gainedMoney);
+      this._earnMoney(gainedMoney)
     });
   }
 
-  isOwnerOfBusiness(businessId: BusinessIdType): boolean {
-    return !!this._getBusiness(businessId);
+  private _getBusiness(businessId: BusinessIdType) {
+    return this._businessesMap.get(businessId);
+  }
+
+  private _setBusiness(businessId: BusinessIdType, businessInstance: IBusiness) {
+    this._businessesMap.set(businessId, businessInstance);
+  }
+
+  private _spendMoney(sum: number): void {
+    this._capital = this.capital - sum;
+  }
+
+  private _earnMoney(sum: number): void {
+    this._capital = this.capital + sum;
   }
 }
 
