@@ -3,18 +3,22 @@ export type BusinessConfigType = {
   id: BusinessIdType,
   price: number
   title: string,
-  priceMultiplier: number
+  priceMultiplier: number,
+  gainCapitalDurationMs: number
 };
 
 export type BusinessIdType = number;
 
 export interface IBusiness {
-  upgrade: () => void,
-  getId: () => number,
-  getTitle: () => string,
-  getIncome: () => number,
-  getLevel: () => number
-  getPrice: () => number
+  upgrade: () => void;
+  getId: () => number;
+  getTitle: () => string;
+  getIncome: () => number;
+  getLevel: () => number;
+  getPrice: () => number;
+  getGainCapitalDurationMs: () => number;
+  isGainingCapital: () => boolean;
+  gainCapital: (callback: (earnedMoney: number) => void) => void
 }
 
 //TODO: move to utils
@@ -34,11 +38,16 @@ export class Business implements IBusiness {
   private _income: number;
   private _initialIncome: number;
 
+  private _gainCapitalDurationMs: number;
+
+  private _gainCapitalTimerId: NodeJS.Timeout | null = null;
+
   constructor({
     id,
     price,
     title,
-    priceMultiplier
+    priceMultiplier,
+    gainCapitalDurationMs
   }:BusinessConfigType) {
     this._id = id;
 
@@ -50,6 +59,8 @@ export class Business implements IBusiness {
 
     this._income = price / 2;
     this._initialIncome = this._income;
+
+    this._gainCapitalDurationMs = gainCapitalDurationMs;
   }
 
   private _getInitialIncome() {
@@ -104,6 +115,14 @@ export class Business implements IBusiness {
     return this._income;
   }
 
+  getGainCapitalDurationMs(): number {
+    return this._gainCapitalDurationMs;
+  }
+
+  isGainingCapital(): boolean {
+    return !!this._gainCapitalTimerId;
+  }
+
   upgrade(): void {
     const newPrice = this._calculateUpgradedPrice();
     const newLevel = this._calculateUpgradedLevel();
@@ -112,6 +131,17 @@ export class Business implements IBusiness {
     this._setPrice(newPrice);
     this._setLevel(newLevel);
     this._setIncome(newIncome);
+  }
+
+  gainCapital(callback: (earnedMoney: number) => void): void {
+    if (this.isGainingCapital()) {
+      return;
+    }
+
+    this._gainCapitalTimerId = setTimeout(() => {
+      callback(this.getIncome());
+      this._gainCapitalTimerId = null;
+    }, this.getGainCapitalDurationMs());
   }
 }
 
@@ -122,7 +152,8 @@ export class BusinessService {
       id: 0,
       price: 0,
       title: '',
-      priceMultiplier: 0.07
+      priceMultiplier: 0.07,
+      gainCapitalDurationMs: 1000
     };
   }
 }

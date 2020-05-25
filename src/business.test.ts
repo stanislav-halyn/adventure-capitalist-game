@@ -4,12 +4,21 @@ import {
   BusinessConfigType
 } from './business';
 
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  jest.clearAllTimers();
+  jest.restoreAllMocks();
+});
+
+
 describe('Business class does the following sections correctly', () => {
   const initialBusinessConfig: BusinessConfigType = {
     id: 0,
     price: 4,
     title: 'Lemons',
-    priceMultiplier: 0.07
+    priceMultiplier: 0.07,
+    gainCapitalDurationMs: 1000
   };
 
   test('business is initialized with correct values', () => {
@@ -55,5 +64,52 @@ describe('Business class does the following sections correctly', () => {
 
     expect(businessInstance.getPrice())
       .toBeCloseTo(4.90);
+  });
+
+  test('business takes some time to gain the capital', () => {
+    jest.useFakeTimers();
+
+    const businessInstance = new Business(initialBusinessConfig);
+    const callback = jest.fn();
+
+    businessInstance.gainCapital(callback);
+
+    expect(setTimeout)
+      .toBeCalledTimes(1);
+
+    expect(setTimeout)
+      .toBeCalledWith(expect.any(Function), businessInstance.getGainCapitalDurationMs());
+  });
+
+  test('business doesn\'t re-start gaining capital if it\'s already in progress', () => {
+    jest.useFakeTimers();
+
+    jest.spyOn(Business.prototype, 'isGainingCapital').mockImplementation(() => true);
+
+    const businessInstance = new Business(initialBusinessConfig);
+    const callback = jest.fn();
+
+    businessInstance.gainCapital(callback);
+
+    expect(setTimeout)
+      .not.toBeCalled();
+  });
+
+  test('business passes earned money amount to the callback', () => {
+    const businessInstance = new Business(initialBusinessConfig);
+    const callback = jest.fn();
+
+    businessInstance.gainCapital(callback);
+
+    expect(callback)
+      .not.toBeCalled();
+
+    jest.advanceTimersByTime(businessInstance.getGainCapitalDurationMs());
+
+    expect(callback)
+      .toBeCalled();
+
+    expect(callback)
+      .toBeCalledWith(businessInstance.getIncome());
   });
 });
