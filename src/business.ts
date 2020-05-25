@@ -11,15 +11,15 @@ export type BusinessConfigType = {
 export type BusinessIdType = number;
 
 export interface IBusiness {
-  upgrade: () => void;
-  getId: () => number;
-  getTitle: () => string;
-  getIncome: () => number;
-  getLevel: () => number;
-  getPrice: () => number;
-  getGainCapitalDurationMs: () => number;
-  isGainingCapital: () => boolean;
-  gainCapital: (callback: (earnedMoney: number) => void) => void
+  id: BusinessIdType
+  title: string
+  profit: number
+  level: number
+  price: number
+  gainCapitalDurationMs: number
+  isGainingCapital: boolean
+  upgrade: () => void
+  gainCapital: (callback: (gainedMoney: number) => void) => void
 }
 
 //TODO: move to utils
@@ -36,8 +36,8 @@ export class Business implements IBusiness {
   private _title: string;
   private _level: number;
 
-  private _income: number;
-  private _initialIncome: number;
+  private _profit: number;
+  private _initialProfit: number;
 
   private _gainCapitalDurationMs: number;
 
@@ -45,11 +45,12 @@ export class Business implements IBusiness {
 
   constructor({
     id,
-    price,
     title,
+    price,
+    profit,
     upgradePriceMultiplier,
     gainCapitalDurationMs
-  }:BusinessConfigType) {
+  }: BusinessConfigType) {
     this._id = id;
 
     this._priceMultiplier = upgradePriceMultiplier;
@@ -58,90 +59,67 @@ export class Business implements IBusiness {
     this._title = title;
     this._level = 1;
 
-    this._income = price / 2;
-    this._initialIncome = this._income;
+    this._profit = profit;
+    this._initialProfit = profit;
 
     this._gainCapitalDurationMs = gainCapitalDurationMs;
   }
 
-  private _getInitialIncome() {
-    return this._initialIncome;
-  }
-
-  private _getPriceMultiplier() {
-    return this._priceMultiplier;
-  }
-
-  private _calculateUpgradedPrice(): number {
-    return calculateUpgradedPrice(this.getPrice(), this._getPriceMultiplier());
-  }
-
-  private _calculateUpgradedLevel(): number {
-    return this.getLevel() + 1;
-  }
-
-  private _calculateUpgradedIncome(): number {
-    return this.getIncome() + this._getInitialIncome();
-  }
-
-  private _setPrice(newPrice: number): void {
-    this._price = newPrice;
-  }
-
-  private _setLevel(newLevel: number): void {
-    this._level = newLevel;
-  }
-
-  private _setIncome(newIncome: number): void {
-    this._income = newIncome;
-  }
-
-  getId(): BusinessIdType {
+  get id(): BusinessIdType {
     return this._id;
   }
 
-  getTitle(): string {
+  get title(): string {
     return this._title;
   }
 
-  getPrice(): number {
+  get price(): number {
     return this._price;
   }
 
-  getLevel(): number {
+  get level(): number {
     return this._level;
   }
 
-  getIncome(): number {
-    return this._income;
+  get profit(): number {
+    return this._profit;
   }
 
-  getGainCapitalDurationMs(): number {
+  get gainCapitalDurationMs(): number {
     return this._gainCapitalDurationMs;
   }
 
-  isGainingCapital(): boolean {
+  get isGainingCapital(): boolean {
     return !!this._gainCapitalTimerId;
   }
 
   upgrade(): void {
-    const newPrice = this._calculateUpgradedPrice();
-    const newLevel = this._calculateUpgradedLevel();
-    const newIncome = this._calculateUpgradedIncome();
-
-    this._setPrice(newPrice);
-    this._setLevel(newLevel);
-    this._setIncome(newIncome);
+    this._upgradePrice();
+    this._upgradeLevel();
+    this._upgradeProfit();
   }
 
-  gainCapital(callback: (earnedMoney: number) => void): void {
-    if (this.isGainingCapital()) {
+  gainCapital(callback: (gainedMoney: number) => void): void {
+    if (this.isGainingCapital) {
       return;
     }
 
     this._gainCapitalTimerId = setTimeout(() => {
-      callback(this.getIncome());
+      callback(this.profit);
+
       this._gainCapitalTimerId = null;
-    }, this.getGainCapitalDurationMs());
+    }, this._gainCapitalDurationMs);
+  }
+
+  private _upgradePrice(): void {
+    this._price = calculateUpgradedPrice(this.price, this._priceMultiplier);
+  }
+
+  private _upgradeLevel(): void {
+    this._level = this.level + 1;
+  }
+
+  private _upgradeProfit(): void {
+    this._profit = this.profit + this._initialProfit;
   }
 }
