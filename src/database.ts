@@ -8,7 +8,7 @@ class DataBase {
   }
 
   static getBusinessConfigById(businessId: BusinessIdType): BusinessConfigType | undefined {
-    const businessConfig = BusinessesConfigs.find((config: BusinessConfigType) => config.id === businessId);
+    const businessConfig = BusinessesConfigs.find(config => config.id === businessId);
 
     return businessConfig;
   }

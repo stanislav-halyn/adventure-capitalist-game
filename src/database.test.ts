@@ -12,7 +12,7 @@ jest.mock('./businesses-configs.json', () => ([{
 
 
 describe('#database.test.ts', () => {
-  test('returns a list of businesses configs', () => {
+  test('.getListOfBusinessesConfigs()', () => {
     const businessesConfigs = Database.getListOfBusinessesConfigs();
 
     expect(businessesConfigs)
@@ -23,19 +23,21 @@ describe('#database.test.ts', () => {
   });
 
 
-  test('returns a business config by its id', () => {
-    const businessConfig = Database.getBusinessConfigById(0);
+  describe('.getBusinessConfigById()', () => {
+    test('should return a business config by its id', () => {
+      const businessConfig = Database.getBusinessConfigById(0);
 
-    expect(businessConfig?.id)
-      .toEqual(0);
-  });
+      expect(businessConfig?.id)
+        .toEqual(0);
+    });
 
-  test('returns undefined if the business config not found', () => {
-    const nonExistingId = 9999;
+    test('should return undefined if the business config not found', () => {
+      const nonExistingId = 9999;
 
-    const businessConfig = Database.getBusinessConfigById(nonExistingId);
+      const businessConfig = Database.getBusinessConfigById(nonExistingId);
 
-    expect(businessConfig)
-      .toBeUndefined();
+      expect(businessConfig)
+        .toBeUndefined();
+    });
   });
 });
