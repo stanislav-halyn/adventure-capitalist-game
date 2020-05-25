@@ -1,18 +1,16 @@
 import { BusinessIdType, BusinessConfigType } from './business';
 
+import BusinessesConfigs from './businesses-configs.json';
+
 class DataBase {
   static getListOfBusinessesConfigs(): Array<BusinessConfigType>  {
-    return [];
+    return BusinessesConfigs;
   }
 
-  static getBusinessConfigById(businessId: BusinessIdType): BusinessConfigType {
-    return {
-      id: businessId,
-      price: 0,
-      title: '',
-      priceMultiplier: 0.07,
-      gainCapitalDurationMs: 1000
-    };
+  static getBusinessConfigById(businessId: BusinessIdType): BusinessConfigType | undefined {
+    const businessConfig = BusinessesConfigs.find((config: BusinessConfigType) => config.id === businessId);
+
+    return businessConfig;
   }
 }
 
