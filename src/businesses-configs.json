@@ -1,0 +1,82 @@
+[
+  {
+    "id": 0,
+    "title": "Lemonade Stand",
+    "price": 4,
+    "profit": 1,
+    "upgradePriceMultiplier": 0.07,
+    "gainCapitalDurationMs": 500
+  },
+  {
+    "id": 1,
+    "title": "Newspaper Delivery",
+    "price": 60,
+    "profit": 1,
+    "upgradePriceMultiplier": 0.07,
+    "gainCapitalDurationMs": 3000
+  },
+  {
+    "id": 2,
+    "title": "Car Wash",
+    "price": 720,
+    "profit": 1,
+    "upgradePriceMultiplier": 0.15,
+    "gainCapitalDurationMs": 6000
+  },
+  {
+    "id": 3,
+    "title": "Pizza Delivery",
+    "price": 8640,
+    "profit": 1,
+    "upgradePriceMultiplier": 0.15,
+    "gainCapitalDurationMs": 12000
+  },
+  {
+    "id": 4,
+    "title": "Donut Shop",
+    "price": 103680,
+    "profit": 1,
+    "upgradePriceMultiplier": 0.15,
+    "gainCapitalDurationMs": 24000
+  },
+  {
+    "id": 5,
+    "title": "Shrimp Boat",
+    "price": 1244160,
+    "profit": 1,
+    "upgradePriceMultiplier": 0.23,
+    "gainCapitalDurationMs": 96000
+  },
+  {
+    "id": 6,
+    "title": "Hockey Team",
+    "price": 14929920,
+    "profit": 1,
+    "upgradePriceMultiplier": 0.23,
+    "gainCapitalDurationMs": 384000
+  },
+  {
+    "id": 7,
+    "title": "Movie Studio",
+    "price": 179159040,
+    "profit": 1,
+    "upgradePriceMultiplier": 0.23,
+    "gainCapitalDurationMs": 1536000
+  },
+  {
+    "id": 8,
+    "title": "Bank",
+    "price": 2149908480,
+    "profit": 1,
+    "upgradePriceMultiplier": 0.23,
+    "gainCapitalDurationMs": 6144000
+  },
+  {
+    "id": 9,
+    "title": "Oil Company",
+    "price": 25798901760,
+    "profit": 1,
+    "upgradePriceMultiplier": 0.30,
+    "gainCapitalDurationMs": 24576000
+  }
+]
