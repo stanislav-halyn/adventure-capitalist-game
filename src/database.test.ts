@@ -11,11 +11,6 @@ jest.mock('./businesses-configs.json', () => ([{
 }]), { virtual: true });
 
 
-beforeEach(() => {
-  jest.clearAllMocks();
-});
-
-
 describe('#database.test.ts', () => {
   test('returns a list of businesses configs', () => {
     const businessesConfigs = Database.getListOfBusinessesConfigs();

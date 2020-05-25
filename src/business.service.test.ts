@@ -13,6 +13,7 @@ jest.mock('./database');
 beforeEach(() => {
   jest.clearAllMocks();
   jest.resetAllMocks();
+  jest.restoreAllMocks();
 })
 
 describe('#business.service.test.ts', () => {
