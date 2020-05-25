@@ -4,7 +4,11 @@
 module.exports = {
   verbose: true,
 
-  roots: ["../../src"],
+  roots: ["<rootDir>/../../"],
+
+  moduleNameMapper: {
+    '^@src/(.*)$': '<rootDir>/../../src/$1'
+  },
 
   coverageDirectory: "coverage",
 
