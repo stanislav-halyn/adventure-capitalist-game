@@ -4,9 +4,10 @@ import Player from './player';
 // Business
 import {
   Business,
-  BusinessService,
   BusinessConfigType
 } from './business';
+
+import BusinessService from './business.service';
 
 
 jest.mock('./business');

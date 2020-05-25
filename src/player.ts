@@ -1,10 +1,11 @@
 // Business
 import {
   Business,
-  BusinessService,
   BusinessIdType,
   IBusiness
 } from './business';
+
+import BusinessService from './business.service';
 
 interface IPlayer {
   getCapital: () => number,
@@ -44,6 +45,11 @@ class Player implements IPlayer {
 
   buyBusiness(businessId: BusinessIdType): void {
     const businessConfig = BusinessService.getBusinessConfigById(businessId);
+
+    if (!businessConfig) {
+      console.log('Business with this id doesn\'t exist');
+      return;
+    }
 
     if (!this.hasEnoughMoney(businessConfig.price)) {
       console.log('There\'s not enough money to buy this business');

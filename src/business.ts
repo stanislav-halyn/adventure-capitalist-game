@@ -145,17 +145,3 @@ export class Business implements IBusiness {
     }, this.getGainCapitalDurationMs());
   }
 }
-
-export class BusinessService {
-  static getBusinessConfigById(businessId: BusinessIdType): BusinessConfigType {
-    businessId
-    return {
-      id: 0,
-      price: 0,
-      title: '',
-      profit: 0,
-      upgradePriceMultiplier: 0.07,
-      gainCapitalDurationMs: 1000
-    };
-  }
-}
