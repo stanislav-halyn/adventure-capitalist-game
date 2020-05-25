@@ -12,105 +12,112 @@ beforeEach(() => {
 });
 
 
-describe('Business class does the following sections correctly', () => {
+describe('business.test.ts', () => {
   const initialBusinessConfig: BusinessConfigType = {
     id: 0,
     price: 4,
     title: 'Lemons',
-    profit: 0,
+    profit: 2,
     upgradePriceMultiplier: 0.07,
     gainCapitalDurationMs: 1000
   };
 
-  test('business is initialized with correct values', () => {
+
+  test('.constructor()', () => {
     const businessInstance = new Business(initialBusinessConfig);
 
-    expect(businessInstance.getId())
+    expect(businessInstance.id)
       .toEqual(0);
 
-    expect(businessInstance.getLevel())
+    expect(businessInstance.level)
       .toEqual(1);
 
-    expect(businessInstance.getTitle())
+    expect(businessInstance.title)
       .toEqual('Lemons');
 
-    expect(businessInstance.getIncome())
+    expect(businessInstance.profit)
       .toEqual(2);
 
-    expect(businessInstance.getPrice())
+    expect(businessInstance.price)
       .toBeCloseTo(4.28);
   });
 
 
-  test('business is upgraded correctly', () => {
+  test('.upgrade()', () => {
     const businessInstance = new Business(initialBusinessConfig);
     businessInstance.upgrade();
 
-    expect(businessInstance.getIncome())
+    expect(businessInstance.profit)
       .toEqual(4);
 
-    expect(businessInstance.getLevel())
+    expect(businessInstance.level)
       .toEqual(2);
 
-    expect(businessInstance.getPrice())
+    expect(businessInstance.price)
       .toBeCloseTo(4.58);
 
     businessInstance.upgrade();
 
-    expect(businessInstance.getIncome())
+    expect(businessInstance.profit)
     .toEqual(6);
 
-    expect(businessInstance.getLevel())
+    expect(businessInstance.level)
       .toEqual(3);
 
-    expect(businessInstance.getPrice())
+    expect(businessInstance.price)
       .toBeCloseTo(4.90);
   });
 
-  test('business takes some time to gain the capital', () => {
-    jest.useFakeTimers();
 
-    const businessInstance = new Business(initialBusinessConfig);
-    const callback = jest.fn();
+  describe('.gainCapital()', () => {
+    test('should take some time to gain the capital', () => {
+      jest.useFakeTimers();
 
-    businessInstance.gainCapital(callback);
+      const businessInstance = new Business(initialBusinessConfig);
+      const callback = jest.fn();
 
-    expect(setTimeout)
-      .toBeCalledTimes(1);
+      businessInstance.gainCapital(callback);
 
-    expect(setTimeout)
-      .toBeCalledWith(expect.any(Function), businessInstance.getGainCapitalDurationMs());
-  });
+      expect(setTimeout)
+        .toBeCalledTimes(1);
 
-  test('business doesn\'t re-start gaining capital if it\'s already in progress', () => {
-    jest.useFakeTimers();
+      expect(setTimeout)
+        .toBeCalledWith(expect.any(Function), businessInstance.gainCapitalDurationMs);
+    });
 
-    jest.spyOn(Business.prototype, 'isGainingCapital').mockImplementation(() => true);
 
-    const businessInstance = new Business(initialBusinessConfig);
-    const callback = jest.fn();
+    test('shouldn\'t re-start gaining capital if it\'s already in progress', () => {
+      jest.useFakeTimers();
 
-    businessInstance.gainCapital(callback);
+      const businessInstance = new Business(initialBusinessConfig);
 
-    expect(setTimeout)
-      .not.toBeCalled();
-  });
+      jest.spyOn(businessInstance, 'isGainingCapital', 'get').mockImplementation(() => true);
 
-  test('business passes earned money amount to the callback', () => {
-    const businessInstance = new Business(initialBusinessConfig);
-    const callback = jest.fn();
+      const callback = jest.fn();
 
-    businessInstance.gainCapital(callback);
+      businessInstance.gainCapital(callback);
 
-    expect(callback)
-      .not.toBeCalled();
+      expect(setTimeout)
+        .not.toBeCalled();
+    });
 
-    jest.advanceTimersByTime(businessInstance.getGainCapitalDurationMs());
 
-    expect(callback)
-      .toBeCalled();
+    test('should pass gained money amount to the callback', () => {
+      const businessInstance = new Business(initialBusinessConfig);
+      const callback = jest.fn();
 
-    expect(callback)
-      .toBeCalledWith(businessInstance.getIncome());
+      businessInstance.gainCapital(callback);
+
+      expect(callback)
+        .not.toBeCalled();
+
+      jest.advanceTimersByTime(businessInstance.gainCapitalDurationMs);
+
+      expect(callback)
+        .toBeCalled();
+
+      expect(callback)
+        .toBeCalledWith(businessInstance.profit);
+    });
   });
 });
