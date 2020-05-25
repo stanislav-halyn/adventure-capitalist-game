@@ -29,7 +29,7 @@ describe('#business.service.test.ts', () => {
   }
 
 
-  test('returns a list of all businesses configs', () => {
+  test('.getListOfBusinessesConfigs()', () => {
     const dbBusinessesConfigs = [dbBusinessConfig, dbBusinessConfig];
 
     jest.spyOn(Database, 'getListOfBusinessesConfigs')
@@ -44,7 +44,7 @@ describe('#business.service.test.ts', () => {
       .toHaveLength(2);
   });
 
-  test('return a business config by its id', () => {
+  test('.getBusinessConfigById()', () => {
     jest.spyOn(Database, 'getBusinessConfigById').mockImplementation(() => dbBusinessConfig);
 
     const businessConfig = BusinessService.getBusinessConfigById(businessId);
