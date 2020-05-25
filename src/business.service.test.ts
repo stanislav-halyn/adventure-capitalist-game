@@ -21,8 +21,9 @@ describe('#business.service.test.ts', () => {
   const dbBusinessConfig: BusinessConfigType = {
     id: businessId,
     price: 0,
+    profit: 0,
     title: '',
-    priceMultiplier: 0.07,
+    upgradePriceMultiplier: 0.07,
     gainCapitalDurationMs: 1000
   }
 

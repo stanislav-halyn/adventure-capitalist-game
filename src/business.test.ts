@@ -17,7 +17,8 @@ describe('Business class does the following sections correctly', () => {
     id: 0,
     price: 4,
     title: 'Lemons',
-    priceMultiplier: 0.07,
+    profit: 0,
+    upgradePriceMultiplier: 0.07,
     gainCapitalDurationMs: 1000
   };
 

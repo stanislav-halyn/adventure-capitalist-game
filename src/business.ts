@@ -1,9 +1,10 @@
 
 export type BusinessConfigType = {
   id: BusinessIdType,
-  price: number
   title: string,
-  priceMultiplier: number,
+  price: number,
+  profit: number,
+  upgradePriceMultiplier: number,
   gainCapitalDurationMs: number
 };
 
@@ -22,8 +23,8 @@ export interface IBusiness {
 }
 
 //TODO: move to utils
-const calculateUpgradedPrice = (price: number, priceMultiplier: number): number => (
-  price + price * priceMultiplier
+const calculateUpgradedPrice = (price: number, upgradePriceMultiplier: number): number => (
+  price + price * upgradePriceMultiplier
 );
 
 export class Business implements IBusiness {
@@ -46,13 +47,13 @@ export class Business implements IBusiness {
     id,
     price,
     title,
-    priceMultiplier,
+    upgradePriceMultiplier,
     gainCapitalDurationMs
   }:BusinessConfigType) {
     this._id = id;
 
-    this._priceMultiplier = priceMultiplier;
-    this._price = calculateUpgradedPrice(price, priceMultiplier);
+    this._priceMultiplier = upgradePriceMultiplier;
+    this._price = calculateUpgradedPrice(price, upgradePriceMultiplier);
 
     this._title = title;
     this._level = 1;
@@ -152,7 +153,8 @@ export class BusinessService {
       id: 0,
       price: 0,
       title: '',
-      priceMultiplier: 0.07,
+      profit: 0,
+      upgradePriceMultiplier: 0.07,
       gainCapitalDurationMs: 1000
     };
   }

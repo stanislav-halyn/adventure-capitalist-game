@@ -21,7 +21,8 @@ describe('Player class does the following sections correctly:', () => {
     id: businessId,
     price: 50,
     title: 'Lemons',
-    priceMultiplier: 0.07,
+    profit: 0,
+    upgradePriceMultiplier: 0.07,
     gainCapitalDurationMs: 1000
   };
 
