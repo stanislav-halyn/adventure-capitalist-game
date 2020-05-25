@@ -79,7 +79,7 @@ describe('Player class does the following sections correctly:', () => {
         .toBeCalledTimes(1);
 
       expect(Business)
-        .toBeCalledWith();
+        .toBeCalledWith(businessConfig);
 
       expect(Player.prototype.getCapital)
         .toBeCalledTimes(2);
