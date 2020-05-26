@@ -1,8 +1,8 @@
 // Entities
-import { BusinessType, BusinessConfigType } from '../../business';
+import { BusinessType } from '../../business';
 
 
-export const formatBusinessConfig = (businessConfig: BusinessConfigType): BusinessType => ({
+export const formatBusinessConfig = <T> (businessConfig: Extract<T, BusinessType>): BusinessType => ({
   id: businessConfig.id,
   title: businessConfig.title,
   price: businessConfig.price,

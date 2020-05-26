@@ -97,6 +97,39 @@ describe('#player.test.ts', () => {
   });
 
 
+  test('.getMyBusinessesList()', () => {
+    const playerInstance = new Player();
+
+    const initialCapital = 150;
+
+    jest.spyOn(playerInstance, 'capital', 'get')
+      .mockImplementationOnce(() => initialCapital)
+      .mockImplementationOnce(() => initialCapital);
+
+    playerInstance.buyBusiness(businessId);
+
+    const businessesList = playerInstance.getMyBusinessesList();
+
+    expect(businessesList)
+      .toBeInstanceOf(Array);
+
+    expect(businessesList)
+      .toHaveLength(1);
+
+    expect(formatBusinessConfig)
+      .toBeCalledTimes(1);
+
+    expect(formatBusinessConfig)
+      .toHaveBeenNthCalledWith(1, expect.objectContaining({
+        id: expect.any(Number),
+        title: expect.any(String),
+        price: expect.any(Number),
+        profit: expect.any(Number),
+        gainCapitalDurationMs: expect.any(Number),
+      }));
+  });
+
+
   describe('.buyBusiness()', () => {
     test('should be able to buy a business', () => {
       const playerInstance = new Player();

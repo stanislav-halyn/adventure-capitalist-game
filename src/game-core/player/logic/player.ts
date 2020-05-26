@@ -41,6 +41,12 @@ class Player implements IPlayer {
     return businessesConfigs.map(config => formatBusinessConfig(config));
   }
 
+  getMyBusinessesList(): Array<BusinessType> {
+    const businesses = Array.from(this._businessesMap.values());
+
+    return businesses.map(businessInstance => formatBusinessConfig(businessInstance));
+  }
+
   hasEnoughMoney(price: number): boolean {
     return this.capital >= price;
   }
