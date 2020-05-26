@@ -2,7 +2,13 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
-  roots: ["../../src"],
+  verbose: true,
+
+  roots: ["<rootDir>/../../"],
+
+  moduleNameMapper: {
+    '^@src/(.*)$': '<rootDir>/../../src/$1'
+  },
 
   coverageDirectory: "coverage",
 

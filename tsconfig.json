@@ -8,11 +8,16 @@
     "noImplicitAny": true,
     "sourceMap": true,
     "target": "es2015",
-    "module": "es2015",
+    "module": "commonjs",
     "moduleResolution": "node",
-    "baseUrl": "./",
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"]
+    },
     "strict": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "resolveJsonModule": true,
+    "noResolve": false
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"],
