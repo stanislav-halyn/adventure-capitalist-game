@@ -40,6 +40,8 @@ const businessConfig: BusinessConfigType = {
 
 
 beforeEach(() => {
+  jest.useFakeTimers();
+
   BusinessService.getBusinessConfigById = jest.fn(() => businessConfig);
 });
 
@@ -220,6 +222,9 @@ describe('#player.test.ts', () => {
 
       playerInstance.gainCapital(businessId);
 
+      // execute setImmediate
+      jest.runAllTimers();
+
       expect(gainCapitaSpy)
         .toBeCalled();
 
@@ -239,6 +244,9 @@ describe('#player.test.ts', () => {
       const playerInstance = new Player();
 
       playerInstance.gainCapital(businessId);
+
+      // execute setImmediate
+      jest.runAllTimers();
 
       expect(gainCapitaSpy)
         .not.toBeCalled();
