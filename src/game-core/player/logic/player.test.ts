@@ -123,9 +123,12 @@ describe('#player.test.ts', () => {
       .toHaveBeenNthCalledWith(1, expect.objectContaining({
         id: expect.any(Number),
         title: expect.any(String),
-        price: expect.any(Number),
         profit: expect.any(Number),
+        level: expect.any(Number),
+        price: expect.any(Number),
         gainCapitalDurationMs: expect.any(Number),
+        isGainingCapital: expect.any(Boolean),
+        gainCapitalStartTimestamp: null
       }));
   });
 

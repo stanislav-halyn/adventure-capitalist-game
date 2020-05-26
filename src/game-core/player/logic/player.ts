@@ -6,12 +6,11 @@ import {
   Business,
   BusinessService,
   IBusiness,
-  BusinessIdType,
-  BusinessType
+  BusinessIdType
 } from '../../business';
 
 // Typings
-import { IPlayer } from '../typings';
+import { IPlayer, PlayerBusinessType } from '../typings';
 
 // Constants
 import { PlayerEventNames } from '../constants';
@@ -35,13 +34,13 @@ class Player implements IPlayer {
     this._eventEmitter.on(eventName, handler);
   }
 
-  getAllBusinessesList(): Array<BusinessType> {
+  getAllBusinessesList(): Array<PlayerBusinessType> {
     const businessesConfigs = BusinessService.getListOfBusinessesConfigs();
 
     return businessesConfigs.map(config => formatBusinessConfig(config));
   }
 
-  getMyBusinessesList(): Array<BusinessType> {
+  getMyBusinessesList(): Array<PlayerBusinessType> {
     const businesses = Array.from(this._businessesMap.values());
 
     return businesses.map(businessInstance => formatBusinessConfig(businessInstance));

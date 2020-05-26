@@ -1,15 +1,26 @@
 // Entities
-import { BusinessType, BusinessIdType } from '../../business';
+import { BusinessIdType } from '../../business';
 
 // Constants
 import { PlayerEventNames } from '../constants';
 
 
+export type PlayerBusinessType = {
+  id: BusinessIdType
+  title: string
+  profit: number
+  level: number
+  price: number
+  gainCapitalDurationMs: number
+  isGainingCapital: boolean
+  gainCapitalStartTimestamp: number | null
+};
+
 export interface IPlayer {
   capital: number
   addEventListener: (eventName: PlayerEventNames, handler: () => void) => void
-  getAllBusinessesList: () => Array<BusinessType>
-  getMyBusinessesList: () => Array<BusinessType>
+  getAllBusinessesList: () => Array<PlayerBusinessType>
+  getMyBusinessesList: () => Array<PlayerBusinessType>
   hasEnoughMoney: (price: number) => boolean
   isOwnerOfBusiness: (businessId: BusinessIdType) => boolean
   buyBusiness: (businessId: BusinessIdType) => void
