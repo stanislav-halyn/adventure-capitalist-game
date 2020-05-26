@@ -25,6 +25,8 @@ class Business implements IBusiness {
 
   private _gainCapitalTimerId: NodeJS.Timeout | null = null;
 
+  private _gainCapitalStartTimestamp: number | null = null;
+
   constructor({
     id,
     title,
@@ -75,6 +77,10 @@ class Business implements IBusiness {
     return !!this._gainCapitalTimerId;
   }
 
+  get gainCapitalStartTimestamp(): number | null {
+    return this._gainCapitalStartTimestamp;
+  }
+
   upgrade(): void {
     this._upgradePrice();
     this._upgradeLevel();
@@ -87,10 +93,13 @@ class Business implements IBusiness {
       return;
     }
 
+    this._gainCapitalStartTimestamp = new Date().getTime();
+
     this._gainCapitalTimerId = setTimeout(() => {
       callback(this.profit);
 
       this._gainCapitalTimerId = null;
+      this._gainCapitalStartTimestamp = null;
     }, this._gainCapitalDurationMs);
   }
 
