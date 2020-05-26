@@ -1,6 +1,11 @@
 import { Player } from './logic';
-import { IPlayer } from './typings';
+import { IPlayer, PlayerBusinessType } from './typings';
 import { PlayerEventNames } from './constants';
 
 
-export { Player, IPlayer, PlayerEventNames };
+export {
+  Player,
+  IPlayer,
+  PlayerBusinessType,
+  PlayerEventNames
+};

@@ -18,7 +18,7 @@ export interface IBusiness {
   price: number
   gainCapitalDurationMs: number
   isGainingCapital: boolean
-  gainCapitalStartTimestamp: number | null
+  startGainCapitalTimestamp: number | null
   upgrade: () => void
   gainCapital: (callback: (gainedMoney: number) => void) => void
 }

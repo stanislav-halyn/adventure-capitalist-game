@@ -16,7 +16,7 @@ import { IPlayer, PlayerBusinessType } from '../typings';
 import { PlayerEventNames } from '../constants';
 
 // Utils
-import { formatBusinessConfig } from '../utils/player-format.utils';
+import { formatBusiness } from '../utils/player-format.utils';
 
 
 class Player implements IPlayer {
@@ -37,13 +37,27 @@ class Player implements IPlayer {
   getAllBusinessesList(): Array<PlayerBusinessType> {
     const businessesConfigs = BusinessService.getListOfBusinessesConfigs();
 
-    return businessesConfigs.map(config => formatBusinessConfig(config));
+    const result = businessesConfigs.map(config => (
+      formatBusiness({
+        business: config,
+        isBought: this.isOwnerOfBusiness(config.id)
+      })
+    ));
+
+    return result;
   }
 
   getMyBusinessesList(): Array<PlayerBusinessType> {
     const businesses = Array.from(this._businessesMap.values());
 
-    return businesses.map(businessInstance => formatBusinessConfig(businessInstance));
+    const result = businesses.map(businessInstance => (
+      formatBusiness({
+        business: businessInstance,
+        isBought: this.isOwnerOfBusiness(businessInstance.id)
+      })
+    ));
+
+    return result;
   }
 
   hasEnoughMoney(price: number): boolean {

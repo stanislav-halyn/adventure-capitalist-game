@@ -1,11 +1,16 @@
-import { Player, IPlayer, PlayerEventNames } from './player';
-import { BusinessType, BusinessIdType, BusinessConfigType } from './business';
+import {
+  Player,
+  IPlayer,
+  PlayerBusinessType,
+  PlayerEventNames
+} from './player';
+import { BusinessIdType, BusinessConfigType } from './business';
 
 export {
   Player,
   IPlayer,
   PlayerEventNames,
-  BusinessType,
+  PlayerBusinessType,
   BusinessIdType,
   BusinessConfigType
 };

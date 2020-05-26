@@ -13,7 +13,8 @@ export type PlayerBusinessType = {
   price: number
   gainCapitalDurationMs: number
   isGainingCapital: boolean
-  gainCapitalStartTimestamp: number | null
+  startGainCapitalTimestamp: number | null
+  isBought: boolean
 };
 
 export interface IPlayer {

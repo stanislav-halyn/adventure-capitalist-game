@@ -15,7 +15,7 @@ import {
 import { PlayerEventNames } from '../constants';
 
 // Utils
-import { formatBusinessConfig } from '../utils/player-format.utils';
+import { formatBusiness } from '../utils/player-format.utils';
 
 
 jest.mock('events');
@@ -89,11 +89,14 @@ describe('#player.test.ts', () => {
     expect(businessesList)
       .toHaveLength(1);
 
-    expect(formatBusinessConfig)
+    expect(formatBusiness)
       .toBeCalledTimes(1);
 
-    expect(formatBusinessConfig)
-      .toHaveBeenNthCalledWith(1, businessConfig);
+    expect(formatBusiness)
+      .toHaveBeenNthCalledWith(1, expect.objectContaining({
+        business: expect.any(Object),
+        isBought: expect.any(Boolean)
+      }));
   });
 
 
@@ -116,19 +119,13 @@ describe('#player.test.ts', () => {
     expect(businessesList)
       .toHaveLength(1);
 
-    expect(formatBusinessConfig)
+    expect(formatBusiness)
       .toBeCalledTimes(1);
 
-    expect(formatBusinessConfig)
+    expect(formatBusiness)
       .toHaveBeenNthCalledWith(1, expect.objectContaining({
-        id: expect.any(Number),
-        title: expect.any(String),
-        profit: expect.any(Number),
-        level: expect.any(Number),
-        price: expect.any(Number),
-        gainCapitalDurationMs: expect.any(Number),
-        isGainingCapital: expect.any(Boolean),
-        gainCapitalStartTimestamp: null
+        business: expect.any(Object),
+        isBought: expect.any(Boolean)
       }));
   });
 
