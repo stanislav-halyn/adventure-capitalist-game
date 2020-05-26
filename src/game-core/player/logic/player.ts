@@ -6,7 +6,8 @@ import {
   Business,
   BusinessService,
   IBusiness,
-  BusinessIdType
+  BusinessIdType,
+  BusinessType
 } from '../../business';
 
 // Typings
@@ -14,6 +15,9 @@ import { IPlayer } from '../typings';
 
 // Constants
 import { PlayerEventNames } from '../constants';
+
+// Utils
+import { formatBusinessConfig } from '../utils/player-format.utils';
 
 
 class Player implements IPlayer {
@@ -29,6 +33,12 @@ class Player implements IPlayer {
 
   addEventListener(eventName: PlayerEventNames, handler: () => void): void {
     this._eventEmitter.on(eventName, handler);
+  }
+
+  getAllBusinessesList(): Array<BusinessType> {
+    const businessesConfigs = BusinessService.getListOfBusinessesConfigs();
+
+    return businessesConfigs.map(config => formatBusinessConfig(config));
   }
 
   hasEnoughMoney(price: number): boolean {

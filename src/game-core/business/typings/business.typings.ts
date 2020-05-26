@@ -1,13 +1,16 @@
 
 export type BusinessIdType = number;
 
-export type BusinessConfigType = {
+export type BusinessType = {
   id: BusinessIdType,
   title: string,
   price: number,
   profit: number,
-  upgradePriceMultiplier: number,
   gainCapitalDurationMs: number
+};
+
+export type BusinessConfigType = BusinessType & {
+  upgradePriceMultiplier: number,
 };
 
 export interface IBusiness {

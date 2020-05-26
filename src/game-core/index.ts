@@ -1,9 +1,10 @@
 import { Player, PlayerEventNames } from './player';
-import { BusinessIdType, BusinessConfigType } from './business';
+import { BusinessType, BusinessIdType, BusinessConfigType } from './business';
 
 export {
   Player,
   PlayerEventNames,
+  BusinessType,
   BusinessIdType,
   BusinessConfigType
 };

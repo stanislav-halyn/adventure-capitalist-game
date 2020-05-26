@@ -14,6 +14,9 @@ import {
 // Constants
 import { PlayerEventNames } from '../constants';
 
+// Utils
+import { formatBusinessConfig } from '../utils/player-format.utils';
+
 
 jest.mock('events');
 
@@ -26,6 +29,9 @@ jest.mock('../../business', () => {
     BusinessService: jest.fn()
   };
 });
+
+
+jest.mock('../utils/player-format.utils');
 
 
 const businessId = 1;
@@ -67,7 +73,28 @@ describe('#player.test.ts', () => {
 
     expect(addEventListenerSpy)
       .toBeCalledWith(PlayerEventNames.BUY_BUSINESS, handler);
-  })
+  });
+
+
+  test('.getAllBusinessesList()', () => {
+    BusinessService.getListOfBusinessesConfigs = jest.fn(() => [businessConfig]);
+
+    const playerInstance = new Player();
+
+    const businessesList = playerInstance.getAllBusinessesList();
+
+    expect(businessesList)
+      .toBeInstanceOf(Array);
+
+    expect(businessesList)
+      .toHaveLength(1);
+
+    expect(formatBusinessConfig)
+      .toBeCalledTimes(1);
+
+    expect(formatBusinessConfig)
+      .toHaveBeenNthCalledWith(1, businessConfig);
+  });
 
 
   describe('.buyBusiness()', () => {
