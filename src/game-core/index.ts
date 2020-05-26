@@ -1,3 +1,4 @@
-import { Player, BusinessIdType, BusinessConfigType } from './entities';
+import { Player } from './player';
+import { BusinessIdType, BusinessConfigType } from './business';
 
 export { Player, BusinessIdType, BusinessConfigType };

@@ -11,7 +11,7 @@ import { IPlayer } from '../typings';
 
 
 class Player implements IPlayer {
-  private _capital = 0
+  private _capital = 100
 
   private _businessesMap = new Map<BusinessIdType, IBusiness>()
 
@@ -73,7 +73,8 @@ class Player implements IPlayer {
     }
 
     businessInstance.gainCapital(gainedMoney => {
-      this._earnMoney(gainedMoney)
+      this._earnMoney(gainedMoney);
+      console.log('earned');
     });
   }
 
