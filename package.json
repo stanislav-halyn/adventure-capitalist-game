@@ -14,8 +14,8 @@
   },
   "homepage": "https://github.com/stanislav-halyn/adventure-capitalist-game#readme",
   "scripts": {
-    "start:prod": "npm run build-ts && node ./dist/index.js",
-    "start:dev": "npm run watch-node",
+    "start:prod": "npm run build-ts && NODE_ENV=production node ./dist/index.js",
+    "start:dev": "NODE_ENV=development npm run watch-node",
     "build-ts": "tsc",
     "watch-ts": "tsc --watch",
     "watch-node": "nodemon ./src/index.ts",
