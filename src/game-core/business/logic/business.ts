@@ -83,6 +83,7 @@ class Business implements IBusiness {
 
   gainCapital(callback: (gainedMoney: number) => void): void {
     if (this.isGainingCapital) {
+      console.log('The business is already gaining the capital');
       return;
     }
 
