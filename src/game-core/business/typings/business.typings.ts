@@ -1,15 +1,12 @@
 
 export type BusinessIdType = number;
 
-export type BusinessType = {
+export type BusinessConfigType = {
   id: BusinessIdType,
   title: string,
   price: number,
   profit: number,
   gainCapitalDurationMs: number
-};
-
-export type BusinessConfigType = BusinessType & {
   upgradePriceMultiplier: number,
 };
 
@@ -21,6 +18,7 @@ export interface IBusiness {
   price: number
   gainCapitalDurationMs: number
   isGainingCapital: boolean
+  startGainCapitalTimestamp: number | null
   upgrade: () => void
   gainCapital: (callback: (gainedMoney: number) => void) => void
 }
