@@ -1,3 +1,6 @@
+// Modules
+import { EventEmitter } from 'events';
+
 // Game classes
 import Player from './player';
 
@@ -7,6 +10,12 @@ import {
   BusinessService,
   BusinessConfigType
 } from '../../business';
+
+// Constants
+import { PlayerEventNames } from '../constants';
+
+
+jest.mock('events');
 
 
 jest.mock('../../business', () => {
@@ -43,6 +52,22 @@ afterEach(() => {
 
 
 describe('#player.test.ts', () => {
+  const EventEmitterSpy = jest.spyOn(EventEmitter.prototype, 'emit');
+
+
+  test('.addEventListener()', () => {
+    const addEventListenerSpy = jest.spyOn(EventEmitter.prototype, 'on');
+
+    const playerInstance = new Player();
+    const handler = () => 1;
+
+    playerInstance.addEventListener(PlayerEventNames.BUY_BUSINESS, handler);
+
+    expect(addEventListenerSpy)
+      .toBeCalledWith(PlayerEventNames.BUY_BUSINESS, handler);
+  })
+
+
   describe('.buyBusiness()', () => {
     test('should be able to buy a business', () => {
       const playerInstance = new Player();
@@ -60,6 +85,9 @@ describe('#player.test.ts', () => {
 
       expect(playerInstance.capital)
         .toEqual(100);
+
+      expect(EventEmitterSpy)
+        .toBeCalledWith(PlayerEventNames.BUY_BUSINESS);
     });
 
 
@@ -79,6 +107,9 @@ describe('#player.test.ts', () => {
 
       expect(playerInstance.capital)
         .toEqual(initialCapital);
+
+      expect(EventEmitterSpy)
+        .not.toBeCalledWith(PlayerEventNames.BUY_BUSINESS);
     });
 
 
@@ -114,6 +145,10 @@ describe('#player.test.ts', () => {
       const upgradeBusinessSpy = jest.spyOn(Business.prototype, 'upgrade');
 
       playerInstance.buyBusiness(businessId);
+
+      expect(playerInstance.capital)
+        .toEqual(100);
+
       playerInstance.upgradeBusiness(businessId);
 
       expect(upgradeBusinessSpy)
@@ -121,6 +156,9 @@ describe('#player.test.ts', () => {
 
       expect(playerInstance.capital)
         .toEqual(46.5);
+
+      expect(EventEmitterSpy)
+        .toBeCalledWith(PlayerEventNames.UPGRADE_BUSINESS);
     });
 
     test('shouldn\'t upgrade business if there\'s not enough money', () => {
@@ -133,6 +171,10 @@ describe('#player.test.ts', () => {
       const upgradeBusinessSpy = jest.spyOn(Business.prototype, 'upgrade');
 
       playerInstance.buyBusiness(businessId);
+
+      expect(playerInstance.capital)
+        .toEqual(0);
+
       playerInstance.upgradeBusiness(businessId);
 
       expect(upgradeBusinessSpy)
@@ -140,6 +182,9 @@ describe('#player.test.ts', () => {
 
       expect(playerInstance.capital)
         .toEqual(0);
+
+      expect(EventEmitterSpy)
+        .not.toBeCalledWith(PlayerEventNames.UPGRADE_BUSINESS);
     });
 
     test('shouldn\'t upgrade business if a user doesn\'t own it', () => {
@@ -151,6 +196,9 @@ describe('#player.test.ts', () => {
 
       expect(upgradeBusinessSpy)
         .not.toBeCalled();
+
+      expect(EventEmitterSpy)
+        .not.toBeCalledWith(PlayerEventNames.UPGRADE_BUSINESS);
     });
   });
 
@@ -180,6 +228,9 @@ describe('#player.test.ts', () => {
 
       expect(playerInstance.capital)
         .toEqual(110);
+
+      expect(EventEmitterSpy)
+        .toBeCalledWith(PlayerEventNames.GAIN_CAPITAL);
     });
 
     test('shouldn\'t gain money from a business if a user doesn\'t own it', () => {
@@ -191,6 +242,9 @@ describe('#player.test.ts', () => {
 
       expect(gainCapitaSpy)
         .not.toBeCalled();
+
+      expect(EventEmitterSpy)
+        .not.toBeCalledWith(PlayerEventNames.GAIN_CAPITAL);
     });
   });
 });

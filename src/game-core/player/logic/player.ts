@@ -1,3 +1,6 @@
+// Modules
+import { EventEmitter } from 'events';
+
 // Entities
 import {
   Business,
@@ -9,14 +12,23 @@ import {
 // Typings
 import { IPlayer } from '../typings';
 
+// Constants
+import { PlayerEventNames } from '../constants';
+
 
 class Player implements IPlayer {
   private _capital = 100
 
   private _businessesMap = new Map<BusinessIdType, IBusiness>()
 
+  private _eventEmitter = new EventEmitter();
+
   get capital(): number {
     return this._capital;
+  }
+
+  addEventListener(eventName: PlayerEventNames, handler: () => void): void {
+    this._eventEmitter.on(eventName, handler);
   }
 
   hasEnoughMoney(price: number): boolean {
@@ -44,6 +56,7 @@ class Player implements IPlayer {
 
     this._spendMoney(businessConfig.price);
     this._setBusiness(businessConfig.id, businessInstance);
+    this._eventEmitter.emit(PlayerEventNames.BUY_BUSINESS);
   }
 
   upgradeBusiness(businessId: BusinessIdType): void {
@@ -62,6 +75,7 @@ class Player implements IPlayer {
     this._spendMoney(businessInstance.price);
 
     businessInstance.upgrade();
+    this._eventEmitter.emit(PlayerEventNames.UPGRADE_BUSINESS);
   }
 
   gainCapital(businessId: BusinessIdType): void {
@@ -74,7 +88,7 @@ class Player implements IPlayer {
 
     businessInstance.gainCapital(gainedMoney => {
       this._earnMoney(gainedMoney);
-      console.log('earned');
+      this._eventEmitter.emit(PlayerEventNames.GAIN_CAPITAL);
     });
   }
 
