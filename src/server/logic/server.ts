@@ -3,20 +3,14 @@ import http from 'http';
 import socket from 'socket.io';
 
 // Game core
-import {
-  Player,
-  PlayerEventNames,
-  PLayerBusinessEventPayloadType
-} from '@src/game-core';
+import { Player } from '@src/game-core';
 
 // Handlers
 import {
+  setupPlayerHandlers,
   setupBusinessSocketHandlers,
   setupGameInfoSocketHandlers
 } from '../events/handlers';
-
-// Emitters
-import { emitUpdateUserInfo, emitUpdateBusinessInfo } from '../events/emitters';
 
 
 export const startServer = (port: number): void => {
@@ -30,18 +24,10 @@ export const startServer = (port: number): void => {
     const playerInstance = new Player();
 
 
-    const handleGameInfoUpdate = (payload: PLayerBusinessEventPayloadType) => {
-      emitUpdateUserInfo({ client, playerInstance });
-      emitUpdateBusinessInfo({ client, playerInstance, payload })
-    }
-
-    playerInstance.addEventListener(PlayerEventNames.BUY_BUSINESS, handleGameInfoUpdate);
-    playerInstance.addEventListener(PlayerEventNames.UPGRADE_BUSINESS, handleGameInfoUpdate);
-    playerInstance.addEventListener(PlayerEventNames.GAIN_CAPITAL, handleGameInfoUpdate);
-
+    setupPlayerHandlers({ client, playerInstance });
     setupGameInfoSocketHandlers({ client, playerInstance });
-
     setupBusinessSocketHandlers({ client, playerInstance });
+
 
     client.on('disconnect', () => {
       console.log('disconnected');

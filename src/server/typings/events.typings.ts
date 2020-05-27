@@ -32,10 +32,10 @@ export type HandlerArgs = {
 }
 
 
-export type HandlerConfig = {
-  eventName: string,
+export type HandlerConfig<T> = {
+  eventName: T,
   handler: (args: HandlerArgs) => void
 };
 
 
-export type HandlersConfig = Array<HandlerConfig>
+export type HandlersConfig<T = string> = Array<HandlerConfig<T>>

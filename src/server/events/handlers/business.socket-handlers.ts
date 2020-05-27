@@ -42,7 +42,7 @@ const handleGainCapital = ({ playerInstance, payload }: UpdateBusinessHandler): 
 
 
 // Config
-const socketHandlersConfig: HandlersConfig = [
+const socketHandlersConfig: HandlersConfig<GameActions> = [
   { eventName: GameActions.BUY_BUSINESS, handler: handleBuyBusiness },
   { eventName: GameActions.UPGRADE_BUSINESS, handler: handleUpgradeBusiness },
   { eventName: GameActions.GAIN_CAPITAL, handler: handleGainCapital }

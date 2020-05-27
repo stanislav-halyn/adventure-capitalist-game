@@ -27,7 +27,7 @@ const handleGetBusinessList = ({ client, playerInstance }: HandlerArgs): void =>
 
 
 // Config
-const socketHandlersConfig: HandlersConfig = [
+const socketHandlersConfig: HandlersConfig<GameActions> = [
   { eventName: GameActions.UPDATE_USER_INFO, handler: handleUpdateUserInfo },
   { eventName: GameActions.GET_BUSINESS_LIST, handler: handleGetBusinessList },
 ];

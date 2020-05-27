@@ -19,7 +19,7 @@ export type PlayerBusinessType = {
 
 export interface IPlayer {
   capital: number
-  addEventListener: (eventName: PlayerEventNames, handler: () => void) => void
+  addEventListener: <T>(eventName: PlayerEventNames, handler: (payload: T) => void) => void
   getAllBusinessesList: () => Array<PlayerBusinessType>
   getBusinessById: (businessId: BusinessIdType) => PlayerBusinessType | undefined
   hasEnoughMoney: (price: number) => boolean
