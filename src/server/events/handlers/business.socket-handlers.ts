@@ -40,12 +40,19 @@ const handleGainCapital = ({ playerInstance, payload }: UpdateBusinessHandler): 
   playerInstance.gainCapital(businessId);
 };
 
+const handleHireManager = ({ playerInstance, payload }: UpdateBusinessHandler): void => {
+  const { businessId } = payload;
+
+  playerInstance.hireManager(businessId);
+};
+
 
 // Config
 const socketHandlersConfig: HandlersConfig<GameActions> = [
   { eventName: GameActions.BUY_BUSINESS, handler: handleBuyBusiness },
   { eventName: GameActions.UPGRADE_BUSINESS, handler: handleUpgradeBusiness },
-  { eventName: GameActions.GAIN_CAPITAL, handler: handleGainCapital }
+  { eventName: GameActions.GAIN_CAPITAL, handler: handleGainCapital },
+  { eventName: GameActions.HIRE_MANAGER, handler: handleHireManager }
 ];
 
 
