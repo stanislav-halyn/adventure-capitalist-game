@@ -3,7 +3,7 @@ import http from 'http';
 import socket from 'socket.io';
 
 // Game core
-import { Player } from '@src/game-core';
+import { Player, IPlayer } from '@src/game-core';
 
 // Handlers
 import {
@@ -12,17 +12,35 @@ import {
   setupGameInfoSocketHandlers
 } from '../events/handlers';
 
+// Constants
+import { ServerActions } from '../constants/socket-actions.constants';
+
+// Utils
+import { handlePreflightRequest, getClientId } from '../utils/server.utils';
+
+
+const clientsMap = new Map<string, IPlayer>();
+
 
 export const startServer = (port: number): void => {
   const server = http.createServer();
 
-  const io = socket(server);
+  const io = socket(server, {
+    handlePreflightRequest: handlePreflightRequest as any // eslint-disable-line
+  });
+
 
   io.on('connection', client => {
-    console.log('connected');
+    const clientId = getClientId(client);
 
-    const playerInstance = new Player();
+    let playerInstance = clientsMap.get(clientId);
 
+    if (!playerInstance) {
+      client.emit(ServerActions.AUTHORIZATION, { clientId: client.id });
+
+      playerInstance = new Player(client.id);
+      clientsMap.set(client.id, playerInstance);
+    }
 
     setupPlayerHandlers({ client, playerInstance });
     setupGameInfoSocketHandlers({ client, playerInstance });
@@ -30,7 +48,7 @@ export const startServer = (port: number): void => {
 
 
     client.on('disconnect', () => {
-      console.log('disconnected');
+      client.removeAllListeners();
     });
   })
 

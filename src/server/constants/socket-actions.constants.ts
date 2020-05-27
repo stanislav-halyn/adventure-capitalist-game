@@ -8,3 +8,7 @@ export const enum GameActions {
   GAIN_CAPITAL = 'GAME:gain-capital',
   HIRE_MANAGER = 'GAME:hire-manager'
 }
+
+export const enum ServerActions {
+  AUTHORIZATION = 'SERVER: authorization'
+}

@@ -1,3 +1,5 @@
 import { startServer } from '@src/server';
 
-startServer(3000);
+const PORT_ENV = process.env.PORT as number | undefined;
+
+startServer(PORT_ENV || 3000);
