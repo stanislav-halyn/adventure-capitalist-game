@@ -1,33 +1,33 @@
 // Typings
 import {
-  SocketHandlerArgs,
-  SocketHandlersConfig,
-  SetupSocketSubscribersBaseArgs
-} from '../../typings/socket.typings';
+  HandlerArgs,
+  HandlersConfig,
+  SetupSubscribersBaseArgs
+} from '../../typings/events.typings';
 
 // Utils
 import { setupSocketSubscribers } from '../../utils/socket.utils';
 
 // Emitters
-import { emitUpdateUserInfo, emitGetBusinessList } from '../socket-emitters';
+import { emitUpdateUserInfo, emitGetBusinessList } from '../emitters';
 
 // Constants
 import { GameActions } from '../../constants';
 
 
 // Handlers
-const handleUpdateUserInfo = ({ client, playerInstance }: SocketHandlerArgs): void => {
+const handleUpdateUserInfo = ({ client, playerInstance }: HandlerArgs): void => {
   emitUpdateUserInfo({ client, playerInstance });
 };
 
 
-const handleGetBusinessList = ({ client, playerInstance }: SocketHandlerArgs): void => {
+const handleGetBusinessList = ({ client, playerInstance }: HandlerArgs): void => {
   emitGetBusinessList({ client, playerInstance });
 };
 
 
 // Config
-const socketHandlersConfig: SocketHandlersConfig = [
+const socketHandlersConfig: HandlersConfig = [
   { eventName: GameActions.UPDATE_USER_INFO, handler: handleUpdateUserInfo },
   { eventName: GameActions.GET_BUSINESS_LIST, handler: handleGetBusinessList },
 ];
@@ -36,6 +36,6 @@ const socketHandlersConfig: SocketHandlersConfig = [
 export const setupGameInfoSocketHandlers = ({
   client,
   playerInstance
-}: SetupSocketSubscribersBaseArgs): void => {
+}: SetupSubscribersBaseArgs): void => {
   setupSocketSubscribers({ client, playerInstance, socketHandlersConfig });
 };

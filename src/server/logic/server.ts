@@ -9,14 +9,14 @@ import {
   PLayerBusinessEventPayloadType
 } from '@src/game-core';
 
-// Socket handlers
+// Handlers
 import {
   setupBusinessSocketHandlers,
   setupGameInfoSocketHandlers
-} from '../socket/socket-handlers';
+} from '../events/handlers';
 
-// Socket emitters
-import { emitUpdateUserInfo, emitUpdateBusinessInfo } from '../socket/socket-emitters';
+// Emitters
+import { emitUpdateUserInfo, emitUpdateBusinessInfo } from '../events/emitters';
 
 
 export const startServer = (port: number): void => {

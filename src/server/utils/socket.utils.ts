@@ -1,6 +1,6 @@
 // Typings
 import { Socket } from 'socket.io';
-import { SetupSocketSubscribersArgs } from '../typings/socket.typings';
+import { SetupSocketSubscribersArgs } from '../typings/events.typings';
 
 
 export const subscribeTo = <T>(

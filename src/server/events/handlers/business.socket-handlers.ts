@@ -1,9 +1,9 @@
 // Typings
 import {
-  SocketHandlerArgs,
-  SocketHandlersConfig,
-  SetupSocketSubscribersBaseArgs
-} from '../../typings/socket.typings';
+  HandlerArgs,
+  HandlersConfig,
+  SetupSubscribersBaseArgs
+} from '../../typings/events.typings';
 import { UpdateBusinessClientPayload } from '../../typings/client-payload.typings';
 
 // Utils
@@ -14,7 +14,7 @@ import { GameActions } from '../../constants';
 
 
 // Local types
-type UpdateBusinessHandler = SocketHandlerArgs & {
+type UpdateBusinessHandler = HandlerArgs & {
   payload: UpdateBusinessClientPayload
 };
 
@@ -42,7 +42,7 @@ const handleGainCapital = ({ playerInstance, payload }: UpdateBusinessHandler): 
 
 
 // Config
-const socketHandlersConfig: SocketHandlersConfig = [
+const socketHandlersConfig: HandlersConfig = [
   { eventName: GameActions.BUY_BUSINESS, handler: handleBuyBusiness },
   { eventName: GameActions.UPGRADE_BUSINESS, handler: handleUpgradeBusiness },
   { eventName: GameActions.GAIN_CAPITAL, handler: handleGainCapital }
@@ -52,6 +52,6 @@ const socketHandlersConfig: SocketHandlersConfig = [
 export const setupBusinessSocketHandlers = ({
   client,
   playerInstance
-}: SetupSocketSubscribersBaseArgs): void => {
+}: SetupSubscribersBaseArgs): void => {
   setupSocketSubscribers({ client, playerInstance, socketHandlersConfig });
 };
