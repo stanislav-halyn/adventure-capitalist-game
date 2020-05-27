@@ -9,15 +9,15 @@ import {
 import { setupSocketSubscribers } from '../../utils/socket.utils';
 
 // Emitters
-import { emitUpdateUserInfo, emitGetBusinessList } from '../emitters';
+import { emitGetUserInfo, emitGetBusinessList } from '../emitters';
 
 // Constants
-import { GameActions } from '../../constants';
+import { GameActions } from '../../constants/socket-actions.constants';
 
 
 // Handlers
 const handleUpdateUserInfo = ({ client, playerInstance }: HandlerArgs): void => {
-  emitUpdateUserInfo({ client, playerInstance });
+  emitGetUserInfo({ client, playerInstance });
 };
 
 
@@ -28,7 +28,7 @@ const handleGetBusinessList = ({ client, playerInstance }: HandlerArgs): void =>
 
 // Config
 const socketHandlersConfig: HandlersConfig<GameActions> = [
-  { eventName: GameActions.UPDATE_USER_INFO, handler: handleUpdateUserInfo },
+  { eventName: GameActions.GET_USER_INFO, handler: handleUpdateUserInfo },
   { eventName: GameActions.GET_BUSINESS_LIST, handler: handleGetBusinessList },
 ];
 

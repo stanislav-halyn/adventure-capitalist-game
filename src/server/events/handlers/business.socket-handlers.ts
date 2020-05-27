@@ -10,7 +10,7 @@ import { UpdateBusinessClientPayload } from '../../typings/client-payload.typing
 import { setupSocketSubscribers } from '../../utils/socket.utils';
 
 // Constants
-import { GameActions } from '../../constants';
+import { GameActions } from '../../constants/socket-actions.constants';
 
 
 // Local types

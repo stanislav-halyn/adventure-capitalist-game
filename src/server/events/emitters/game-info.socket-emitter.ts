@@ -5,16 +5,16 @@ import { emit } from '../../utils/socket.utils';
 import { EmitterBaseArgs } from '../../typings/events.typings';
 
 // Constants
-import { GameActions } from '../../constants';
+import { GameActions } from '../../constants/socket-actions.constants';
 
 
-export const emitUpdateUserInfo = ({
+export const emitGetUserInfo = ({
   client,
   playerInstance
 }: EmitterBaseArgs): void => {
   const payload = { capital: playerInstance.capital };
 
-  client.emit(GameActions.UPDATE_USER_INFO, { data: payload });
+  client.emit(GameActions.GET_USER_INFO, { data: payload });
 };
 
 

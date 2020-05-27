@@ -6,10 +6,10 @@ import { PLayerBusinessEventPayloadType } from '@src/game-core';
 import { EmitterArgs } from '../../typings/events.typings';
 
 // Constants
-import { GameActions } from '../../constants';
+import { GameActions } from '../../constants/socket-actions.constants';
 
 
-export const emitUpdateBusinessInfo = ({
+export const emitGetBusinessInfo = ({
   client,
   playerInstance,
   payload
@@ -17,5 +17,5 @@ export const emitUpdateBusinessInfo = ({
   const { businessId } = payload;
   const business = playerInstance.getBusinessById(businessId);
 
-  emit(client, GameActions.UPDATE_BUSINESS_INFO, { data: { business } });
+  emit(client, GameActions.GET_BUSINESS_INFO, { data: { business } });
 };

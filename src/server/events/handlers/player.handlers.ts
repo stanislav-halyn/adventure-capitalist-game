@@ -6,7 +6,7 @@ import {
 } from '../../typings/events.typings';
 
 // Emitters
-import { emitUpdateUserInfo, emitUpdateBusinessInfo } from '../emitters';
+import { emitGetUserInfo, emitGetBusinessInfo } from '../emitters';
 
 // Constants
 import {
@@ -16,23 +16,23 @@ import {
 
 
 // Local types
-type UpdateGameInfoHandler = HandlerArgs & {
+type GetGameInfoHandler = HandlerArgs & {
   payload: PLayerBusinessEventPayloadType
 };
 
 
 // Handlers
-const handleUpdateGameInfo = ({ client, playerInstance, payload }: UpdateGameInfoHandler): void => {
-  emitUpdateUserInfo({ client, playerInstance });
-  emitUpdateBusinessInfo({ client, playerInstance, payload })
+const handleGetGameInfo = ({ client, playerInstance, payload }: GetGameInfoHandler): void => {
+  emitGetUserInfo({ client, playerInstance });
+  emitGetBusinessInfo({ client, playerInstance, payload })
 }
 
 
 // Config
 const playerHandlersConfig: HandlersConfig<PlayerEventNames> = [
-  { eventName: PlayerEventNames.BUY_BUSINESS, handler: handleUpdateGameInfo },
-  { eventName: PlayerEventNames.UPGRADE_BUSINESS, handler: handleUpdateGameInfo },
-  { eventName: PlayerEventNames.GAIN_CAPITAL, handler: handleUpdateGameInfo },
+  { eventName: PlayerEventNames.BUY_BUSINESS, handler: handleGetGameInfo },
+  { eventName: PlayerEventNames.UPGRADE_BUSINESS, handler: handleGetGameInfo },
+  { eventName: PlayerEventNames.GAIN_CAPITAL, handler: handleGetGameInfo },
 ];
 
 
