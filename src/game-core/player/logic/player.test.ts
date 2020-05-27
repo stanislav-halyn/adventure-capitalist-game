@@ -31,7 +31,9 @@ jest.mock('../../business', () => {
 });
 
 
-jest.mock('../utils/player-format.utils');
+jest.mock('../utils/player-format.utils', () => ({
+  formatBusiness: jest.fn()
+}));
 
 
 const businessId = 1;
@@ -94,39 +96,50 @@ describe('#player.test.ts', () => {
 
     expect(formatBusiness)
       .toHaveBeenNthCalledWith(1, expect.objectContaining({
-        business: expect.any(Object),
-        isBought: expect.any(Boolean)
+        business: businessConfig,
+        isBought: false
       }));
   });
 
 
-  test('.getMyBusinessesList()', () => {
-    const playerInstance = new Player();
+  describe('.getBusinessById()', () => {
+    test('should return the business by its id', () => {
+      const playerInstance = new Player();
 
-    const initialCapital = 150;
+      const initialCapital = 150;
 
-    jest.spyOn(playerInstance, 'capital', 'get')
-      .mockImplementationOnce(() => initialCapital)
-      .mockImplementationOnce(() => initialCapital);
+      jest.spyOn(playerInstance, 'capital', 'get')
+        .mockImplementationOnce(() => initialCapital)
+        .mockImplementationOnce(() => initialCapital);
 
-    playerInstance.buyBusiness(businessId);
+      const formattedBusiness = { id: businessId };
+      (formatBusiness as jest.Mock).mockImplementation(() => formattedBusiness);
 
-    const businessesList = playerInstance.getMyBusinessesList();
 
-    expect(businessesList)
-      .toBeInstanceOf(Array);
+      playerInstance.buyBusiness(businessId);
 
-    expect(businessesList)
-      .toHaveLength(1);
+      const business = playerInstance.getBusinessById(businessId);
 
-    expect(formatBusiness)
-      .toBeCalledTimes(1);
+      expect(business)
+        .toEqual(formattedBusiness);
 
-    expect(formatBusiness)
-      .toHaveBeenNthCalledWith(1, expect.objectContaining({
-        business: expect.any(Object),
-        isBought: expect.any(Boolean)
-      }));
+      expect(formatBusiness)
+        .toBeCalledTimes(1);
+
+      expect(formatBusiness)
+        .toHaveBeenNthCalledWith(1, expect.objectContaining({
+          business: expect.any(Object),
+          isBought: true
+        }));
+    });
+
+    test('should return undefined if the business doesn\'t exist', () => {
+      const playerInstance = new Player();
+      const business = playerInstance.getBusinessById(999);
+
+      expect(business)
+        .toBeUndefined();
+    })
   });
 
 

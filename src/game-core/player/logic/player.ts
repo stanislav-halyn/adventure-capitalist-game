@@ -30,7 +30,7 @@ class Player implements IPlayer {
     return this._capital;
   }
 
-  addEventListener(eventName: PlayerEventNames, handler: () => void): void {
+  addEventListener<T>(eventName: PlayerEventNames, handler: (args: T) => void): void {
     this._eventEmitter.on(eventName, handler);
   }
 
@@ -39,7 +39,7 @@ class Player implements IPlayer {
 
     const result = businessesConfigs.map(config => (
       formatBusiness({
-        business: config,
+        business: this._getBusiness(config.id) || config,
         isBought: this.isOwnerOfBusiness(config.id)
       })
     ));
@@ -47,15 +47,18 @@ class Player implements IPlayer {
     return result;
   }
 
-  getMyBusinessesList(): Array<PlayerBusinessType> {
-    const businesses = Array.from(this._businessesMap.values());
+  getBusinessById(businessId: BusinessIdType): PlayerBusinessType | undefined {
+    const businessConfig = BusinessService.getBusinessConfigById(businessId);
 
-    const result = businesses.map(businessInstance => (
-      formatBusiness({
-        business: businessInstance,
-        isBought: this.isOwnerOfBusiness(businessInstance.id)
-      })
-    ));
+    if (!businessConfig) {
+      console.log(`Business with id: ${businessConfig} doesn\'t exist`);
+      return;
+    }
+
+    const result = formatBusiness({
+      business: this._getBusiness(businessId) || businessConfig,
+      isBought: this.isOwnerOfBusiness(businessId)
+    })
 
     return result;
   }
