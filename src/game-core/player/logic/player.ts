@@ -140,6 +140,11 @@ class Player implements IPlayer {
       return;
     }
 
+    this._eventEmitter.emit(
+      PlayerEventNames.START_GAIN_CAPITAL,
+      formatPlayerBusinessEventPayload(businessId)
+    );
+
     businessInstance.gainCapital(gainedMoney => {
       this._earnMoney(gainedMoney);
 

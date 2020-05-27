@@ -44,7 +44,8 @@ const businessConfig: BusinessConfigType = {
   title: 'Lemons',
   profit: 0,
   upgradePriceMultiplier: 0.07,
-  gainCapitalDurationMs: 1000
+  gainCapitalDurationMs: 1000,
+  managerPrice: 500
 };
 
 
@@ -327,7 +328,10 @@ describe('#player.test.ts', () => {
         .toBeCalledWith(businessId);
 
       expect(EventEmitterSpy)
-        .toHaveBeenNthCalledWith(2, PlayerEventNames.GAIN_CAPITAL, playerBusinessEventPayload);
+        .toHaveBeenNthCalledWith(2, PlayerEventNames.START_GAIN_CAPITAL, playerBusinessEventPayload);
+
+      expect(EventEmitterSpy)
+        .toHaveBeenNthCalledWith(3, PlayerEventNames.GAIN_CAPITAL, playerBusinessEventPayload);
     });
 
     test('shouldn\'t gain money from a business if a user doesn\'t own it', () => {
