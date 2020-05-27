@@ -6,7 +6,11 @@ import {
 } from '../../typings/events.typings';
 
 // Emitters
-import { emitGetUserInfo, emitGetBusinessInfo } from '../emitters';
+import {
+  emitGetUserInfo,
+  emitGetBusinessInfo,
+  emitPlayerError
+} from '../emitters';
 
 // Constants
 import {
@@ -20,6 +24,10 @@ type GetGameInfoHandler = HandlerArgs & {
   payload: PLayerBusinessEventPayloadType
 };
 
+type ErrorHandler = HandlerArgs & {
+  payload: string
+};
+
 
 // Handlers
 const handleGetGameInfo = ({ client, playerInstance, payload }: GetGameInfoHandler): void => {
@@ -31,13 +39,18 @@ const handleGetBusinessInfo = ({ client, playerInstance, payload }: GetGameInfoH
   emitGetBusinessInfo({ client, playerInstance, payload })
 }
 
+const handlePlayerError = ({ client, playerInstance, payload }: ErrorHandler): void => {
+  emitPlayerError({ client, playerInstance, payload })
+}
+
 
 // Config
 const playerHandlersConfig: HandlersConfig<PlayerEventNames> = [
   { eventName: PlayerEventNames.BUY_BUSINESS, handler: handleGetGameInfo },
   { eventName: PlayerEventNames.UPGRADE_BUSINESS, handler: handleGetGameInfo },
   { eventName: PlayerEventNames.START_GAIN_CAPITAL, handler: handleGetBusinessInfo },
-  { eventName: PlayerEventNames.GAIN_CAPITAL, handler: handleGetGameInfo }
+  { eventName: PlayerEventNames.GAIN_CAPITAL, handler: handleGetGameInfo },
+  { eventName: PlayerEventNames.ERROR, handler: handlePlayerError }
 ];
 
 
