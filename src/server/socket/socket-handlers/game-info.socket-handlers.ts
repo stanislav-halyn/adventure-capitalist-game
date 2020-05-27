@@ -33,7 +33,7 @@ const socketHandlersConfig: SocketHandlersConfig = [
 ];
 
 
-export const setupGameInfoSocketHandlersConfig = ({
+export const setupGameInfoSocketHandlers = ({
   client,
   playerInstance
 }: SetupSocketSubscribersBaseArgs): void => {

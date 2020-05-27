@@ -11,8 +11,8 @@ import {
 
 // Socket handlers
 import {
-  setupBusinessSocketHandlersConfig,
-  setupGameInfoSocketHandlersConfig
+  setupBusinessSocketHandlers,
+  setupGameInfoSocketHandlers
 } from '../socket/socket-handlers';
 
 // Socket emitters
@@ -39,8 +39,9 @@ export const startServer = (port: number): void => {
     playerInstance.addEventListener(PlayerEventNames.UPGRADE_BUSINESS, handleGameInfoUpdate);
     playerInstance.addEventListener(PlayerEventNames.GAIN_CAPITAL, handleGameInfoUpdate);
 
-    setupGameInfoSocketHandlersConfig({ client, playerInstance });
-    setupBusinessSocketHandlersConfig({ client, playerInstance });
+    setupGameInfoSocketHandlers({ client, playerInstance });
+
+    setupBusinessSocketHandlers({ client, playerInstance });
 
     client.on('disconnect', () => {
       console.log('disconnected');

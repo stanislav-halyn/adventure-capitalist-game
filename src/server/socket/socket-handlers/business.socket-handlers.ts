@@ -49,7 +49,7 @@ const socketHandlersConfig: SocketHandlersConfig = [
 ];
 
 
-export const setupBusinessSocketHandlersConfig = ({
+export const setupBusinessSocketHandlers = ({
   client,
   playerInstance
 }: SetupSocketSubscribersBaseArgs): void => {
