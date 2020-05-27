@@ -188,7 +188,10 @@ class Player implements IPlayer {
 
     this._setManager(businessId);
     this._spendMoney(businessInstance.managerPrice);
-    this.gainCapital(businessId);
+
+    if (!businessInstance.isGainingCapital) {
+      this.gainCapital(businessId);
+    }
   }
 
 
