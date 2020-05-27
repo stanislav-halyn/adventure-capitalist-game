@@ -19,7 +19,8 @@ describe('business.test.ts', () => {
     title: 'Lemons',
     profit: 2,
     upgradePriceMultiplier: 0.07,
-    gainCapitalDurationMs: 1000
+    gainCapitalDurationMs: 1000,
+    managerPrice: 1000
   };
 
 

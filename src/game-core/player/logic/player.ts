@@ -27,6 +27,8 @@ class Player implements IPlayer {
 
   private _businessesMap = new Map<BusinessIdType, IBusiness>()
 
+  private _managersMap = new Map<BusinessIdType, boolean>()
+
   private _eventEmitter = new EventEmitter();
 
   get capital(): number {
@@ -43,6 +45,7 @@ class Player implements IPlayer {
     const result = businessesConfigs.map(config => (
       formatBusiness({
         business: this._getBusiness(config.id) || config,
+        isManaged: this.isBusinessManaged(config.id),
         isBought: this.isOwnerOfBusiness(config.id)
       })
     ));
@@ -60,6 +63,7 @@ class Player implements IPlayer {
 
     const result = formatBusiness({
       business: this._getBusiness(businessId) || businessConfig,
+      isManaged: this.isBusinessManaged(businessId),
       isBought: this.isOwnerOfBusiness(businessId)
     })
 
@@ -72,6 +76,10 @@ class Player implements IPlayer {
 
   isOwnerOfBusiness(businessId: BusinessIdType): boolean {
     return !!this._getBusiness(businessId);
+  }
+
+  isBusinessManaged(businessId: BusinessIdType): boolean {
+    return !!this._getManager(businessId);
   }
 
   buyBusiness(businessId: BusinessIdType): void {
@@ -139,9 +147,34 @@ class Player implements IPlayer {
         this._eventEmitter.emit(
           PlayerEventNames.GAIN_CAPITAL,
           formatPlayerBusinessEventPayload(businessId)
-        )
+        );
+
+        this.isBusinessManaged(businessId) && this.gainCapital(businessId);
       });
     });
+  }
+
+  hireManager(businessId: BusinessIdType): void {
+    const businessInstance = this._getBusiness(businessId);
+
+    if (!businessInstance) {
+      console.log('You don\'t own this business');
+      return;
+    }
+
+    if (!this.hasEnoughMoney(businessInstance.price)) {
+      console.log('There\'s not enough money to upgrade this business');
+      return;
+    }
+
+    if (this.isBusinessManaged(businessId)) {
+      console.log('You already have a manager for this business');
+      return;
+    }
+
+    this._setManager(businessId);
+    this._spendMoney(businessInstance.managerPrice);
+    this.gainCapital(businessId);
   }
 
   private _getBusiness(businessId: BusinessIdType) {
@@ -150,6 +183,14 @@ class Player implements IPlayer {
 
   private _setBusiness(businessId: BusinessIdType, businessInstance: IBusiness) {
     this._businessesMap.set(businessId, businessInstance);
+  }
+
+  private _getManager(businessId: BusinessIdType) {
+    return this._managersMap.get(businessId);
+  }
+
+  private _setManager(businessId: BusinessIdType) {
+    this._managersMap.set(businessId, true);
   }
 
   private _spendMoney(sum: number): void {

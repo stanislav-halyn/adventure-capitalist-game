@@ -15,6 +15,8 @@ class Business implements IBusiness {
   private _priceMultiplier: number;
   private _price: number;
 
+  private _managerPrice: number;
+
   private _title: string;
   private _level: number;
 
@@ -32,6 +34,7 @@ class Business implements IBusiness {
     title,
     price,
     profit,
+    managerPrice,
     upgradePriceMultiplier,
     gainCapitalDurationMs
   }: BusinessConfigType) {
@@ -39,6 +42,8 @@ class Business implements IBusiness {
 
     this._priceMultiplier = upgradePriceMultiplier;
     this._price = calculateUpgradedPrice(price, upgradePriceMultiplier);
+
+    this._managerPrice = managerPrice;
 
     this._title = title;
     this._level = 1;
@@ -59,6 +64,10 @@ class Business implements IBusiness {
 
   get price(): number {
     return this._price;
+  }
+
+  get managerPrice(): number {
+    return this._managerPrice;
   }
 
   get level(): number {

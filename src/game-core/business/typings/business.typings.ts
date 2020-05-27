@@ -8,6 +8,7 @@ export type BusinessConfigType = {
   profit: number,
   gainCapitalDurationMs: number
   upgradePriceMultiplier: number,
+  managerPrice: number
 };
 
 export interface IBusiness {
@@ -19,6 +20,7 @@ export interface IBusiness {
   gainCapitalDurationMs: number
   isGainingCapital: boolean
   startGainCapitalTimestamp: number | null
+  managerPrice: number
   upgrade: () => void
   gainCapital: (callback: (gainedMoney: number) => void) => void
 }

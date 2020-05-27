@@ -14,7 +14,9 @@ export type PlayerBusinessType = {
   gainCapitalDurationMs: number
   isGainingCapital: boolean
   startGainCapitalTimestamp: number | null
+  managerPrice: number
   isBought: boolean
+  isManaged: boolean
 };
 
 export interface IPlayer {
@@ -24,9 +26,11 @@ export interface IPlayer {
   getBusinessById: (businessId: BusinessIdType) => PlayerBusinessType | undefined
   hasEnoughMoney: (price: number) => boolean
   isOwnerOfBusiness: (businessId: BusinessIdType) => boolean
+  isBusinessManaged: (businessId: BusinessIdType) => boolean
   buyBusiness: (businessId: BusinessIdType) => void
   upgradeBusiness(businessId: BusinessIdType): void
   gainCapital: (businessId: BusinessIdType) => void
+  hireManager: (businessId: BusinessIdType) => void
 }
 
 export type PLayerBusinessEventPayloadType = {
