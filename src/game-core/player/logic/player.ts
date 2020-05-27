@@ -87,6 +87,11 @@ class Player implements IPlayer {
       return;
     }
 
+    if (this.isOwnerOfBusiness(businessId)) {
+      console.log('You already own this business');
+      return;
+    }
+
     const businessInstance = new Business(businessConfig);
 
     this._spendMoney(businessConfig.price);
