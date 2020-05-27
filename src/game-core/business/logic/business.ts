@@ -8,6 +8,9 @@ import {
 // Utils
 import { calculateUpgradedPrice } from '../utils/business.utils';
 
+// Constants
+import { BusinessErrors } from '../constants/error.constants';
+
 
 class Business implements IBusiness {
   private _id:  BusinessIdType;
@@ -98,8 +101,7 @@ class Business implements IBusiness {
 
   gainCapital(callback: (gainedMoney: number) => void): void {
     if (this.isGainingCapital) {
-      console.log('The business is already gaining the capital');
-      return;
+      throw new Error(BusinessErrors.BUSINESS_ALREADY_GAINING_CAPITAL);
     }
 
     this._startGainCapitalTimestamp = new Date().getTime();

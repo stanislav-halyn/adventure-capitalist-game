@@ -4,7 +4,7 @@ import {
   PlayerBusinessType,
   PLayerBusinessEventPayloadType
 } from './typings';
-import { PlayerEventNames } from './constants';
+import { PlayerEventNames } from './constants/player.constants';
 
 
 export {
