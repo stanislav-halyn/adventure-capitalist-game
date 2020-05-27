@@ -1,3 +1,3 @@
-import { startServer } from './logic';
+import { startServer } from './logic/server';
 
 export { startServer };

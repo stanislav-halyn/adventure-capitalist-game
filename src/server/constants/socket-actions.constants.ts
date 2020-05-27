@@ -1,9 +1,9 @@
 
 export const enum GameActions {
-  SHOW_ALL_BUSINESSES = 'show-all-businesses',
-  SHOW_MY_BUSINESSES = 'show-my-businesses',
-  BUY_BUSINESS = 'buy-business',
-  UPGRADE_BUSINESS = 'upgrade-business',
-  GAIN_CAPITAL = 'gain-capital',
-  GAIN_CAPITAL_COMPLETE = 'gain-capital-complete'
+  GET_USER_INFO = 'GAME:get-user-info',
+  GET_BUSINESS_INFO = 'GAME:get-business-info',
+  GET_BUSINESS_LIST = 'GAME:get-business-list',
+  BUY_BUSINESS = 'GAME:buy-business',
+  UPGRADE_BUSINESS = 'GAME:upgrade-business',
+  GAIN_CAPITAL = 'GAME:gain-capital'
 }

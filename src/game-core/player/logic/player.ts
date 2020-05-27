@@ -16,7 +16,10 @@ import { IPlayer, PlayerBusinessType } from '../typings';
 import { PlayerEventNames } from '../constants';
 
 // Utils
-import { formatBusiness } from '../utils/player-format.utils';
+import {
+  formatBusiness,
+  formatPlayerBusinessEventPayload
+} from '../utils/player-format.utils';
 
 
 class Player implements IPlayer {
@@ -30,7 +33,7 @@ class Player implements IPlayer {
     return this._capital;
   }
 
-  addEventListener(eventName: PlayerEventNames, handler: () => void): void {
+  addEventListener<T>(eventName: PlayerEventNames, handler: (args: T) => void): void {
     this._eventEmitter.on(eventName, handler);
   }
 
@@ -39,7 +42,7 @@ class Player implements IPlayer {
 
     const result = businessesConfigs.map(config => (
       formatBusiness({
-        business: config,
+        business: this._getBusiness(config.id) || config,
         isBought: this.isOwnerOfBusiness(config.id)
       })
     ));
@@ -47,15 +50,18 @@ class Player implements IPlayer {
     return result;
   }
 
-  getMyBusinessesList(): Array<PlayerBusinessType> {
-    const businesses = Array.from(this._businessesMap.values());
+  getBusinessById(businessId: BusinessIdType): PlayerBusinessType | undefined {
+    const businessConfig = BusinessService.getBusinessConfigById(businessId);
 
-    const result = businesses.map(businessInstance => (
-      formatBusiness({
-        business: businessInstance,
-        isBought: this.isOwnerOfBusiness(businessInstance.id)
-      })
-    ));
+    if (!businessConfig) {
+      console.log(`Business with id: ${businessConfig} doesn\'t exist`);
+      return;
+    }
+
+    const result = formatBusiness({
+      business: this._getBusiness(businessId) || businessConfig,
+      isBought: this.isOwnerOfBusiness(businessId)
+    })
 
     return result;
   }
@@ -85,7 +91,10 @@ class Player implements IPlayer {
 
     this._spendMoney(businessConfig.price);
     this._setBusiness(businessConfig.id, businessInstance);
-    this._eventEmitter.emit(PlayerEventNames.BUY_BUSINESS);
+    this._eventEmitter.emit(
+      PlayerEventNames.BUY_BUSINESS,
+      formatPlayerBusinessEventPayload(businessId)
+    );
   }
 
   upgradeBusiness(businessId: BusinessIdType): void {
@@ -104,7 +113,10 @@ class Player implements IPlayer {
     this._spendMoney(businessInstance.price);
 
     businessInstance.upgrade();
-    this._eventEmitter.emit(PlayerEventNames.UPGRADE_BUSINESS);
+    this._eventEmitter.emit(
+      PlayerEventNames.UPGRADE_BUSINESS,
+      formatPlayerBusinessEventPayload(businessId)
+    );
   }
 
   gainCapital(businessId: BusinessIdType): void {
@@ -118,7 +130,12 @@ class Player implements IPlayer {
     businessInstance.gainCapital(gainedMoney => {
       this._earnMoney(gainedMoney);
 
-      setImmediate(() => this._eventEmitter.emit(PlayerEventNames.GAIN_CAPITAL));
+      setImmediate(() => {
+        this._eventEmitter.emit(
+          PlayerEventNames.GAIN_CAPITAL,
+          formatPlayerBusinessEventPayload(businessId)
+        )
+      });
     });
   }
 
