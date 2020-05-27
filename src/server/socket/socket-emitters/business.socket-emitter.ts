@@ -1,6 +1,5 @@
 // Utils
 import { emit } from '../../utils/socket.utils';
-import { prepareUpdateBusinessDataForClient } from '../../utils/data-flow.utils';
 
 // Typings
 import { PLayerBusinessEventPayloadType } from '@src/game-core';
@@ -16,7 +15,7 @@ export const emitUpdateBusinessInfo = ({
   payload
 }: SocketEmitterArgs<PLayerBusinessEventPayloadType>): void => {
   const { businessId } = payload;
-  const businessData = prepareUpdateBusinessDataForClient(playerInstance, businessId);
+  const business = playerInstance.getBusinessById(businessId);
 
-  emit(client, GameActions.UPDATE_BUSINESS_INFO, { data: businessData });
+  emit(client, GameActions.UPDATE_BUSINESS_INFO, { data: { business } });
 };

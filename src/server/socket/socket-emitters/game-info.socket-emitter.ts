@@ -1,6 +1,5 @@
 // Utils
 import { emit } from '../../utils/socket.utils';
-import { prepareUpdateUserInfoDataForClient } from '../../utils/data-flow.utils';
 
 // Typings
 import { SocketEmitterBaseArgs } from '../../typings/socket.typings';
@@ -13,9 +12,9 @@ export const emitUpdateUserInfo = ({
   client,
   playerInstance
 }: SocketEmitterBaseArgs): void => {
-  const userData = prepareUpdateUserInfoDataForClient(playerInstance);
+  const payload = { capital: playerInstance.capital };
 
-  client.emit(GameActions.UPDATE_USER_INFO, { data: userData });
+  client.emit(GameActions.UPDATE_USER_INFO, { data: payload });
 };
 
 
