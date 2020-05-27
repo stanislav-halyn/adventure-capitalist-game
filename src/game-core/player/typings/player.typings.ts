@@ -2,7 +2,7 @@
 import { BusinessIdType } from '../../business';
 
 // Constants
-import { PlayerEventNames } from '../constants';
+import { PlayerEventNames } from '../constants/player.constants';
 
 
 export type PlayerBusinessType = {

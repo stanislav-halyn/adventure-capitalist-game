@@ -22,7 +22,7 @@ import { handlePreflightRequest, getClientId } from '../utils/server.utils';
 const clientsMap = new Map<string, IPlayer>();
 
 
-export const startServer = (port: number): void => {
+export const startServer = async (port: number): Promise<void> => {
   const server = http.createServer();
 
   const io = socket(server, {

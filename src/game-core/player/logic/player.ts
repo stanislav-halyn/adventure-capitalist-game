@@ -13,7 +13,8 @@ import {
 import { IPlayer, PlayerIdType, PlayerBusinessType } from '../typings';
 
 // Constants
-import { PlayerEventNames } from '../constants';
+import { PlayerEventNames } from '../constants/player.constants';
+import { PlayerErrorMessages } from '../constants/error.constants';
 
 // Utils
 import {
@@ -71,20 +72,9 @@ class Player implements IPlayer {
 
 
   getBusinessById(businessId: BusinessIdType): PlayerBusinessType | undefined {
-    const businessConfig = BusinessService.getBusinessConfigById(businessId);
-
-    if (!businessConfig) {
-      console.log(`Business with id: ${businessConfig} doesn\'t exist`);
-      return;
-    }
-
-    const result = formatBusiness({
-      business: this._getBusiness(businessId) || businessConfig,
-      isManaged: this.isBusinessManaged(businessId),
-      isBought: this.isOwnerOfBusiness(businessId)
-    })
-
-    return result;
+    return this._safeAction<PlayerBusinessType>(() => (
+      this._getBusinessById(businessId)
+    ));
   }
 
 
@@ -104,22 +94,62 @@ class Player implements IPlayer {
 
 
   buyBusiness(businessId: BusinessIdType): void {
-    const businessConfig = BusinessService.getBusinessConfigById(businessId);
+    this._safeAction(() => {
+      this._buyBusiness(businessId);
+    });
+  }
 
-    if (!businessConfig) {
-      console.log('Business with this id doesn\'t exist');
+
+  upgradeBusiness(businessId: BusinessIdType): void {
+    this._safeAction(() => {
+      this._upgradeBusiness(businessId);
+    });
+  }
+
+
+  gainCapital(businessId: BusinessIdType): void {
+    this._safeAction(() => {
+      this._gainCapital(businessId);
+    });
+  }
+
+
+  hireManager(businessId: BusinessIdType): void {
+    this._safeAction(() => {
+      this._hireManager(businessId);
+    })
+  }
+
+  private _safeAction<T>(action: () => T): T | undefined {
+    try {
+      const result = action();
+
+      return result;
+    } catch (err) {
+      this._eventEmitter.emit(PlayerEventNames.ERROR, err.toString());
+
       return;
     }
+  }
 
-    if (!this.hasEnoughMoney(businessConfig.price)) {
-      console.log('There\'s not enough money to buy this business');
-      return;
-    }
+  private _getBusinessById(businessId: BusinessIdType): PlayerBusinessType {
+    const businessConfig = this._getBusinessConfigSave(businessId);
 
-    if (this.isOwnerOfBusiness(businessId)) {
-      console.log('You already own this business');
-      return;
-    }
+    const result = formatBusiness({
+      business: this._getBusiness(businessId) || businessConfig,
+      isManaged: this.isBusinessManaged(businessId),
+      isBought: this.isOwnerOfBusiness(businessId)
+    })
+
+    return result;
+  }
+
+
+  private _buyBusiness(businessId: BusinessIdType): void {
+    const businessConfig = this._getBusinessConfigSave(businessId);
+
+    this._checkEnoughMoney(businessConfig.price);
+    this._checkNotOwnBusiness(businessId);
 
     const businessInstance = new Business(businessConfig);
 
@@ -129,18 +159,10 @@ class Player implements IPlayer {
   }
 
 
-  upgradeBusiness(businessId: BusinessIdType): void {
-    const businessInstance = this._getBusiness(businessId);
+  private _upgradeBusiness(businessId: BusinessIdType): void {
+    const businessInstance = this._getBusinessInstanceSafe(businessId);
 
-    if (!businessInstance) {
-      console.log('You don\'t own this business');
-      return;
-    }
-
-    if (!this.hasEnoughMoney(businessInstance.price)) {
-      console.log('There\'s not enough money to upgrade this business');
-      return;
-    }
+    this._checkEnoughMoney(businessInstance.price);
 
     this._spendMoney(businessInstance.price);
 
@@ -149,13 +171,8 @@ class Player implements IPlayer {
   }
 
 
-  gainCapital(businessId: BusinessIdType): void {
-    const businessInstance = this._getBusiness(businessId);
-
-    if (!businessInstance) {
-      console.log('You don\'t own this business');
-      return;
-    }
+  private _gainCapital(businessId: BusinessIdType): void {
+    const businessInstance = this._getBusinessInstanceSafe(businessId);
 
     businessInstance.gainCapital(this._handleGainCapitalComplete(businessId));
 
@@ -163,23 +180,11 @@ class Player implements IPlayer {
   }
 
 
-  hireManager(businessId: BusinessIdType): void {
-    const businessInstance = this._getBusiness(businessId);
+  private _hireManager(businessId: BusinessIdType): void {
+    const businessInstance = this._getBusinessInstanceSafe(businessId);
 
-    if (!businessInstance) {
-      console.log('You don\'t own this business');
-      return;
-    }
-
-    if (this.isBusinessManaged(businessId)) {
-      console.log('You already have a manager for this business');
-      return;
-    }
-
-    if (!this.hasEnoughMoney(businessInstance.managerPrice)) {
-      console.log('There\'s not enough money to buy a manager for this business');
-      return;
-    }
+    this._checkIsBusinessNotManaged(businessId);
+    this._checkEnoughMoney(businessInstance.managerPrice);
 
     this._setManager(businessId);
     this._spendMoney(businessInstance.managerPrice);
@@ -196,6 +201,48 @@ class Player implements IPlayer {
       this.isBusinessManaged(businessId) && this.gainCapital(businessId);
     });
   }
+
+  private _getBusinessConfigSave(businessId: BusinessIdType) {
+    const businessConfig = BusinessService.getBusinessConfigById(businessId);
+
+    if (!businessConfig) {
+      throw new Error(PlayerErrorMessages.BUSINESS_DOESNT_EXIST);
+    } else {
+      return businessConfig;
+    }
+  }
+
+  private _getBusinessInstanceSafe(businessId: BusinessIdType): IBusiness {
+    const businessInstance = this._getBusiness(businessId);
+
+    if (!businessInstance) {
+      throw new Error(PlayerErrorMessages.YOU_DONT_OWN_BUSINESS);
+    } else {
+      return businessInstance;
+    }
+  }
+
+
+  private _checkEnoughMoney(price: number) {
+    if (!this.hasEnoughMoney(price)) {
+      throw new Error(PlayerErrorMessages.NOT_ENOUGH_MONEY);
+    }
+  }
+
+
+  private _checkIsBusinessNotManaged(businessId: BusinessIdType) {
+    if (this.isBusinessManaged(businessId)) {
+      throw new Error(PlayerErrorMessages.YOU_ALREADY_HAVE_MANAGER);
+    }
+  }
+
+
+  private _checkNotOwnBusiness(businessId: BusinessIdType) {
+    if (this.isOwnerOfBusiness(businessId)) {
+      throw new Error(PlayerErrorMessages.YOU_ALREADY_OWN_BUSINESS);
+    }
+  }
+
 
   private _emitPlayerBusinessEvent(eventName: PlayerEventNames, businessId: BusinessIdType) {
     const eventPayload = formatPlayerBusinessEventPayload(businessId);

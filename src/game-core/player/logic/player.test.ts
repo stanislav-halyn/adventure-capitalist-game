@@ -12,7 +12,7 @@ import {
 } from '../../business';
 
 // Constants
-import { PlayerEventNames } from '../constants';
+import { PlayerEventNames } from '../constants/player.constants';
 
 // Utils
 import { formatPlayerBusinessEventPayload, formatBusiness } from '../utils/player-format.utils';
@@ -36,6 +36,8 @@ jest.mock('../utils/player-format.utils', () => ({
   formatPlayerBusinessEventPayload: jest.fn()
 }));
 
+
+const playerId = 'player-id';
 
 const businessId = 1;
 const businessConfig: BusinessConfigType = {
@@ -70,7 +72,7 @@ describe('#player.test.ts', () => {
   test('.addEventListener()', () => {
     const addEventListenerSpy = jest.spyOn(EventEmitter.prototype, 'on');
 
-    const playerInstance = new Player();
+    const playerInstance = new Player(playerId);
     const handler = () => 1;
 
     playerInstance.addEventListener(PlayerEventNames.BUY_BUSINESS, handler);
@@ -83,7 +85,7 @@ describe('#player.test.ts', () => {
   test('.getAllBusinessesList()', () => {
     BusinessService.getListOfBusinessesConfigs = jest.fn(() => [businessConfig]);
 
-    const playerInstance = new Player();
+    const playerInstance = new Player(playerId);
 
     const businessesList = playerInstance.getAllBusinessesList();
 
@@ -106,7 +108,7 @@ describe('#player.test.ts', () => {
 
   describe('.getBusinessById()', () => {
     test('should return the business by its id', () => {
-      const playerInstance = new Player();
+      const playerInstance = new Player(playerId);
 
       const initialCapital = 150;
 
@@ -136,7 +138,7 @@ describe('#player.test.ts', () => {
     });
 
     test('should return undefined if the business doesn\'t exist', () => {
-      const playerInstance = new Player();
+      const playerInstance = new Player(playerId);
       const business = playerInstance.getBusinessById(999);
 
       expect(business)
@@ -147,7 +149,7 @@ describe('#player.test.ts', () => {
 
   describe('.buyBusiness()', () => {
     test('should be able to buy a business', () => {
-      const playerInstance = new Player();
+      const playerInstance = new Player(playerId);
 
       const initialCapital = 150;
 
@@ -175,7 +177,7 @@ describe('#player.test.ts', () => {
 
 
     test('shouldn\'t be able to buy a business if there\'s not enough capital', () => {
-      const playerInstance = new Player();
+      const playerInstance = new Player(playerId);
 
       const initialCapital = 40;
 
@@ -197,7 +199,7 @@ describe('#player.test.ts', () => {
 
 
     test('calls functions with correct arguments', () => {
-      const playerInstance = new Player();
+      const playerInstance = new Player(playerId);
 
       jest.spyOn(playerInstance, 'capital', 'get').mockImplementation(() => 150);
 
@@ -219,7 +221,7 @@ describe('#player.test.ts', () => {
 
   describe('.upgradeBusiness()', () => {
     test('should upgrade business', () => {
-      const playerInstance = new Player();
+      const playerInstance = new Player(playerId);
 
       jest.spyOn(playerInstance, 'capital', 'get')
         .mockImplementationOnce(() => 150)
@@ -251,7 +253,7 @@ describe('#player.test.ts', () => {
     });
 
     test('shouldn\'t upgrade business if there\'s not enough money', () => {
-      const playerInstance = new Player();
+      const playerInstance = new Player(playerId);
 
       jest.spyOn(playerInstance, 'capital', 'get')
         .mockImplementationOnce(() => 50)
@@ -277,7 +279,7 @@ describe('#player.test.ts', () => {
     });
 
     test('shouldn\'t upgrade business if a user doesn\'t own it', () => {
-      const playerInstance = new Player();
+      const playerInstance = new Player(playerId);
 
       const upgradeBusinessSpy = jest.spyOn(Business.prototype, 'upgrade');
 
@@ -293,7 +295,7 @@ describe('#player.test.ts', () => {
 
   describe('.gainCapital()', () => {
     test('should gain money from a business', () => {
-      const playerInstance = new Player();
+      const playerInstance = new Player(playerId);
 
       jest.spyOn(playerInstance, 'capital', 'get')
         .mockImplementationOnce(() => 150)
@@ -337,7 +339,7 @@ describe('#player.test.ts', () => {
     test('shouldn\'t gain money from a business if a user doesn\'t own it', () => {
       const gainCapitaSpy = jest.spyOn(Business.prototype, 'gainCapital');
 
-      const playerInstance = new Player();
+      const playerInstance = new Player(playerId);
 
       playerInstance.gainCapital(businessId);
 

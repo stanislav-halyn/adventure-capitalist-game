@@ -87,7 +87,7 @@ describe('business.test.ts', () => {
     });
 
 
-    test('shouldn\'t re-start gaining capital if it\'s already in progress', () => {
+    test('should throw error it\'s already in progress', () => {
       jest.useFakeTimers();
 
       const businessInstance = new Business(initialBusinessConfig);
@@ -96,10 +96,8 @@ describe('business.test.ts', () => {
 
       const callback = jest.fn();
 
-      businessInstance.gainCapital(callback);
-
-      expect(setTimeout)
-        .not.toBeCalled();
+      expect(() => businessInstance.gainCapital(callback))
+        .toThrow();
     });
 
 

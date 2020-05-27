@@ -2,7 +2,7 @@
 import { emit } from '../../utils/socket.utils';
 
 // Typings
-import { EmitterBaseArgs } from '../../typings/events.typings';
+import { EmitterBaseArgs, EmitterArgs } from '../../typings/events.typings';
 
 // Constants
 import { GameActions } from '../../constants/socket-actions.constants';
@@ -25,4 +25,11 @@ export const emitGetBusinessList = ({
   const businessList = playerInstance.getAllBusinessesList();
 
   emit(client, GameActions.GET_BUSINESS_LIST, { data: { businessList } });
+};
+
+export const emitPlayerError = ({
+  client,
+  payload
+}: EmitterArgs<string>): void => {
+  emit(client, GameActions.ERROR, { data: { error: payload } });
 };
