@@ -27,12 +27,17 @@ const handleGetGameInfo = ({ client, playerInstance, payload }: GetGameInfoHandl
   emitGetBusinessInfo({ client, playerInstance, payload })
 }
 
+const handleGetBusinessInfo = ({ client, playerInstance, payload }: GetGameInfoHandler): void => {
+  emitGetBusinessInfo({ client, playerInstance, payload })
+}
+
 
 // Config
 const playerHandlersConfig: HandlersConfig<PlayerEventNames> = [
   { eventName: PlayerEventNames.BUY_BUSINESS, handler: handleGetGameInfo },
   { eventName: PlayerEventNames.UPGRADE_BUSINESS, handler: handleGetGameInfo },
-  { eventName: PlayerEventNames.GAIN_CAPITAL, handler: handleGetGameInfo },
+  { eventName: PlayerEventNames.START_GAIN_CAPITAL, handler: handleGetBusinessInfo },
+  { eventName: PlayerEventNames.GAIN_CAPITAL, handler: handleGetGameInfo }
 ];
 
 

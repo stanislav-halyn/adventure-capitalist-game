@@ -5,7 +5,8 @@
     "price": 4,
     "profit": 2,
     "upgradePriceMultiplier": 0.07,
-    "gainCapitalDurationMs": 500
+    "gainCapitalDurationMs": 500,
+    "managerPrice": 5000
   },
   {
     "id": 1,
@@ -13,7 +14,8 @@
     "price": 60,
     "profit": 30,
     "upgradePriceMultiplier": 0.07,
-    "gainCapitalDurationMs": 3000
+    "gainCapitalDurationMs": 3000,
+    "managerPrice": 30000
   },
   {
     "id": 2,
@@ -21,7 +23,8 @@
     "price": 720,
     "profit": 360,
     "upgradePriceMultiplier": 0.15,
-    "gainCapitalDurationMs": 6000
+    "gainCapitalDurationMs": 6000,
+    "managerPrice": 60000
   },
   {
     "id": 3,
@@ -29,7 +32,8 @@
     "price": 8640,
     "profit": 4320,
     "upgradePriceMultiplier": 0.15,
-    "gainCapitalDurationMs": 12000
+    "gainCapitalDurationMs": 12000,
+    "managerPrice": 120000
   },
   {
     "id": 4,
@@ -37,7 +41,8 @@
     "price": 103680,
     "profit": 51840,
     "upgradePriceMultiplier": 0.15,
-    "gainCapitalDurationMs": 24000
+    "gainCapitalDurationMs": 24000,
+    "managerPrice": 240000
   },
   {
     "id": 5,
@@ -45,7 +50,8 @@
     "price": 1244160,
     "profit": 622080,
     "upgradePriceMultiplier": 0.23,
-    "gainCapitalDurationMs": 96000
+    "gainCapitalDurationMs": 96000,
+    "managerPrice": 960000
   },
   {
     "id": 6,
@@ -53,7 +59,8 @@
     "price": 14929920,
     "profit": 7464960,
     "upgradePriceMultiplier": 0.23,
-    "gainCapitalDurationMs": 384000
+    "gainCapitalDurationMs": 384000,
+    "managerPrice": 3840000
   },
   {
     "id": 7,
@@ -61,7 +68,8 @@
     "price": 179159040,
     "profit": 89579520,
     "upgradePriceMultiplier": 0.23,
-    "gainCapitalDurationMs": 1536000
+    "gainCapitalDurationMs": 1536000,
+    "managerPrice": 15360000
   },
   {
     "id": 8,
@@ -69,7 +77,8 @@
     "price": 2149908480,
     "profit": 1074954240,
     "upgradePriceMultiplier": 0.23,
-    "gainCapitalDurationMs": 6144000
+    "gainCapitalDurationMs": 6144000,
+    "managerPrice": 61440000
   },
   {
     "id": 9,
@@ -77,6 +86,7 @@
     "price": 25798901760,
     "profit": 12899450880,
     "upgradePriceMultiplier": 0.30,
-    "gainCapitalDurationMs": 24576000
+    "gainCapitalDurationMs": 24576000,
+    "managerPrice": 245760000
   }
 ]
