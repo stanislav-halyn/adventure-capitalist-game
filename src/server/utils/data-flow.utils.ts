@@ -1,12 +1,21 @@
 // Typings
 import { IPlayer } from '@src/game-core';
+import {
+  UpdateUserInfoResponseType,
+  UpdateBusinessResponseType
+} from '../typings/server-response.typings';
 
 
-export const prepareDataForClient = (playerInstance: IPlayer) => {
-  const businessesList = playerInstance.getMyBusinessesList();
+export const prepareUpdateUserInfoDataForClient = (
+  playerInstance: IPlayer
+): UpdateUserInfoResponseType  => ({
+  capital: playerInstance.capital
+});
 
-  return {
-    capital: playerInstance.capital,
-    businessesList
-  };
-}
+
+export const prepareUpdateBusinessDataForClient = (
+  playerInstance: IPlayer,
+  businessId: number
+): UpdateBusinessResponseType => ({
+  business: playerInstance.getBusinessById(businessId)
+})

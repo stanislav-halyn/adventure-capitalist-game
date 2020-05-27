@@ -3,13 +3,21 @@ import http from 'http';
 import socket from 'socket.io';
 
 // Game core
-import { Player, PlayerEventNames } from '@src/game-core';
+import {
+  Player,
+  PlayerEventNames,
+  PLayerBusinessEventPayloadType,
+  BusinessIdType
+} from '@src/game-core';
 
 // Constants
 import { GameActions } from '../constants';
 
 // Utils
-import { prepareDataForClient } from '../utils/data-flow.utils';
+import {
+  prepareUpdateUserInfoDataForClient,
+  prepareUpdateBusinessDataForClient
+} from '../utils/data-flow.utils';
 
 
 export const startServer = (port: number): void => {
@@ -18,39 +26,40 @@ export const startServer = (port: number): void => {
   const io = socket(server);
 
   io.on('connection', client => {
+    console.log('connected');
+
     const playerInstance = new Player();
 
 
-    playerInstance.addEventListener(PlayerEventNames.BUY_BUSINESS, () => {
-      const data = prepareDataForClient(playerInstance);
+    const handleUpdateBusinessInfo = (businessId: BusinessIdType) => {
+      const businessData = prepareUpdateBusinessDataForClient(playerInstance, businessId);
+      client.emit(GameActions.UPDATE_BUSINESS_INFO, { data: businessData });
+    };
 
-      client.emit(GameActions.BUY_BUSINESS, { data });
-    });
-
-    playerInstance.addEventListener(PlayerEventNames.UPGRADE_BUSINESS, () => {
-      const data = prepareDataForClient(playerInstance);
-
-      client.emit(GameActions.UPGRADE_BUSINESS, { data });
-    });
-
-    playerInstance.addEventListener(PlayerEventNames.GAIN_CAPITAL, () => {
-      const data = prepareDataForClient(playerInstance);
-
-      client.emit(GameActions.GAIN_CAPITAL_COMPLETE, { data });
-    });
+    const handleUpdateUserInfo = () => {
+      const userData = prepareUpdateUserInfoDataForClient(playerInstance);
+      client.emit(GameActions.UPDATE_USER_INFO, { data: userData });
+    };
 
 
-    client.on(GameActions.SHOW_ALL_BUSINESSES, () => {
+    const handleGameInfoUpdate = ({ businessId }: PLayerBusinessEventPayloadType) => {
+      handleUpdateBusinessInfo(businessId);
+      handleUpdateUserInfo();
+    }
+
+
+    playerInstance.addEventListener(PlayerEventNames.BUY_BUSINESS, handleGameInfoUpdate);
+    playerInstance.addEventListener(PlayerEventNames.UPGRADE_BUSINESS, handleGameInfoUpdate);
+    playerInstance.addEventListener(PlayerEventNames.GAIN_CAPITAL, handleGameInfoUpdate);
+
+
+    client.on(GameActions.UPDATE_USER_INFO, handleUpdateUserInfo);
+
+
+    client.on(GameActions.GET_BUSINESS_LIST, () => {
       const businessList = playerInstance.getAllBusinessesList();
 
-      client.emit(GameActions.SHOW_ALL_BUSINESSES, { data: businessList });
-    });
-
-
-    client.on(GameActions.SHOW_MY_BUSINESSES, () => {
-        const businessList = playerInstance.getMyBusinessesList();
-
-      client.emit(GameActions.SHOW_MY_BUSINESSES, { data: businessList });
+      client.emit(GameActions.GET_BUSINESS_LIST, { data: { businessList } });
     });
 
 
@@ -73,7 +82,7 @@ export const startServer = (port: number): void => {
 
       playerInstance.gainCapital(businessId);
 
-      client.emit(GameActions.GAIN_CAPITAL);
+      handleUpdateBusinessInfo(businessId);
     });
 
 
