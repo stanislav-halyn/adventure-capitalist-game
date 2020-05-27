@@ -16,7 +16,10 @@ import { IPlayer, PlayerBusinessType } from '../typings';
 import { PlayerEventNames } from '../constants';
 
 // Utils
-import { formatBusiness } from '../utils/player-format.utils';
+import {
+  formatBusiness,
+  formatPlayerBusinessEventPayload
+} from '../utils/player-format.utils';
 
 
 class Player implements IPlayer {
@@ -88,7 +91,10 @@ class Player implements IPlayer {
 
     this._spendMoney(businessConfig.price);
     this._setBusiness(businessConfig.id, businessInstance);
-    this._eventEmitter.emit(PlayerEventNames.BUY_BUSINESS);
+    this._eventEmitter.emit(
+      PlayerEventNames.BUY_BUSINESS,
+      formatPlayerBusinessEventPayload(businessId)
+    );
   }
 
   upgradeBusiness(businessId: BusinessIdType): void {
@@ -107,7 +113,10 @@ class Player implements IPlayer {
     this._spendMoney(businessInstance.price);
 
     businessInstance.upgrade();
-    this._eventEmitter.emit(PlayerEventNames.UPGRADE_BUSINESS);
+    this._eventEmitter.emit(
+      PlayerEventNames.UPGRADE_BUSINESS,
+      formatPlayerBusinessEventPayload(businessId)
+    );
   }
 
   gainCapital(businessId: BusinessIdType): void {
@@ -121,7 +130,12 @@ class Player implements IPlayer {
     businessInstance.gainCapital(gainedMoney => {
       this._earnMoney(gainedMoney);
 
-      setImmediate(() => this._eventEmitter.emit(PlayerEventNames.GAIN_CAPITAL));
+      setImmediate(() => {
+        this._eventEmitter.emit(
+          PlayerEventNames.GAIN_CAPITAL,
+          formatPlayerBusinessEventPayload(businessId)
+        )
+      });
     });
   }
 

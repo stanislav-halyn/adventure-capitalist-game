@@ -1,6 +1,7 @@
 // Typings
-import { PlayerBusinessType } from '../typings/player.typings';
 import { Optional } from '@src/utils/typings.utils';
+import { BusinessIdType } from '../../business';
+import { PlayerBusinessType, PLayerBusinessEventPayloadType } from '../typings/player.typings';
 
 
 type OptionalBusinessFields = 'level' | 'isGainingCapital' | 'startGainCapitalTimestamp' | 'isBought';
@@ -24,4 +25,11 @@ export const formatBusiness = <T> ({
   isGainingCapital: business.isGainingCapital || false,
   startGainCapitalTimestamp: business.startGainCapitalTimestamp || null,
   isBought
+});
+
+
+export const formatPlayerBusinessEventPayload = (
+  businessId: BusinessIdType
+): PLayerBusinessEventPayloadType => ({
+  businessId
 });

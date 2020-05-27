@@ -15,7 +15,7 @@ import {
 import { PlayerEventNames } from '../constants';
 
 // Utils
-import { formatBusiness } from '../utils/player-format.utils';
+import { formatPlayerBusinessEventPayload, formatBusiness } from '../utils/player-format.utils';
 
 
 jest.mock('events');
@@ -32,7 +32,8 @@ jest.mock('../../business', () => {
 
 
 jest.mock('../utils/player-format.utils', () => ({
-  formatBusiness: jest.fn()
+  formatBusiness: jest.fn(),
+  formatPlayerBusinessEventPayload: jest.fn()
 }));
 
 
@@ -129,7 +130,7 @@ describe('#player.test.ts', () => {
       expect(formatBusiness)
         .toHaveBeenNthCalledWith(1, expect.objectContaining({
           business: expect.any(Object),
-          isBought: true
+          isBought: expect.any(Boolean)
         }));
     });
 
@@ -153,6 +154,9 @@ describe('#player.test.ts', () => {
         .mockImplementationOnce(() => initialCapital)
         .mockImplementationOnce(() => initialCapital);
 
+      const playerBusinessEventPayload = {};
+      (formatPlayerBusinessEventPayload as jest.Mock).mockReturnValue(playerBusinessEventPayload);
+
       playerInstance.buyBusiness(businessId);
 
       expect(playerInstance.isOwnerOfBusiness(businessId))
@@ -161,8 +165,11 @@ describe('#player.test.ts', () => {
       expect(playerInstance.capital)
         .toEqual(100);
 
+      expect(formatPlayerBusinessEventPayload)
+        .toBeCalledWith(businessId);
+
       expect(EventEmitterSpy)
-        .toBeCalledWith(PlayerEventNames.BUY_BUSINESS);
+        .toBeCalledWith(PlayerEventNames.BUY_BUSINESS, playerBusinessEventPayload);
     });
 
 
@@ -219,6 +226,9 @@ describe('#player.test.ts', () => {
 
       const upgradeBusinessSpy = jest.spyOn(Business.prototype, 'upgrade');
 
+      const playerBusinessEventPayload = {};
+      (formatPlayerBusinessEventPayload as jest.Mock).mockReturnValue(playerBusinessEventPayload);
+
       playerInstance.buyBusiness(businessId);
 
       expect(playerInstance.capital)
@@ -232,8 +242,11 @@ describe('#player.test.ts', () => {
       expect(playerInstance.capital)
         .toEqual(46.5);
 
+      expect(formatPlayerBusinessEventPayload)
+        .toBeCalledWith(businessId);
+
       expect(EventEmitterSpy)
-        .toBeCalledWith(PlayerEventNames.UPGRADE_BUSINESS);
+        .toHaveBeenNthCalledWith(2, PlayerEventNames.UPGRADE_BUSINESS, playerBusinessEventPayload);
     });
 
     test('shouldn\'t upgrade business if there\'s not enough money', () => {
@@ -288,6 +301,9 @@ describe('#player.test.ts', () => {
       const gainCapitaSpy = jest.spyOn(Business.prototype, 'gainCapital');
       gainCapitaSpy.mockImplementation(cb => cb(10));
 
+      const playerBusinessEventPayload = {};
+      (formatPlayerBusinessEventPayload as jest.Mock).mockReturnValue(playerBusinessEventPayload);
+
       playerInstance.buyBusiness(businessId);
 
       expect(playerInstance.capital)
@@ -307,8 +323,11 @@ describe('#player.test.ts', () => {
       expect(playerInstance.capital)
         .toEqual(110);
 
+      expect(formatPlayerBusinessEventPayload)
+        .toBeCalledWith(businessId);
+
       expect(EventEmitterSpy)
-        .toBeCalledWith(PlayerEventNames.GAIN_CAPITAL);
+        .toHaveBeenNthCalledWith(2, PlayerEventNames.GAIN_CAPITAL, playerBusinessEventPayload);
     });
 
     test('shouldn\'t gain money from a business if a user doesn\'t own it', () => {

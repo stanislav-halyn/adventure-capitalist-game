@@ -2,6 +2,7 @@ import {
   Player,
   IPlayer,
   PlayerBusinessType,
+  PLayerBusinessEventPayloadType,
   PlayerEventNames
 } from './player';
 import { BusinessIdType, BusinessConfigType } from './business';
@@ -11,6 +12,7 @@ export {
   IPlayer,
   PlayerEventNames,
   PlayerBusinessType,
+  PLayerBusinessEventPayloadType,
   BusinessIdType,
   BusinessConfigType
 };
