@@ -10,7 +10,7 @@ import {
 } from '../../business';
 
 // Typings
-import { IPlayer, PlayerBusinessType } from '../typings';
+import { IPlayer, PlayerIdType, PlayerBusinessType } from '../typings';
 
 // Constants
 import { PlayerEventNames } from '../constants';
@@ -23,7 +23,9 @@ import {
 
 
 class Player implements IPlayer {
-  private _capital = 100
+  private _id: PlayerIdType;
+
+  private _capital: number;
 
   private _businessesMap = new Map<BusinessIdType, IBusiness>()
 
@@ -31,6 +33,17 @@ class Player implements IPlayer {
 
   private _eventEmitter = new EventEmitter();
 
+
+  constructor(id: PlayerIdType, initialCapital?: number) {
+    this._id = id;
+
+    this._capital = initialCapital || 100;
+  }
+
+
+  get id(): PlayerIdType {
+    return this._id;
+  }
 
   get capital(): number {
     return this._capital;

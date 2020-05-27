@@ -19,7 +19,10 @@ export type PlayerBusinessType = {
   isManaged: boolean
 };
 
+export type PlayerIdType = string;
+
 export interface IPlayer {
+  id: PlayerIdType
   capital: number
   addEventListener: <T>(eventName: PlayerEventNames, handler: (payload: T) => void) => void
   getAllBusinessesList: () => Array<PlayerBusinessType>
