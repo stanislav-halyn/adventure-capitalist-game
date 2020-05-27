@@ -47,7 +47,7 @@ class Player implements IPlayer {
   }
 
   get capital(): number {
-    return this._capital;
+    return +this._capital.toFixed(2);
   }
 
 
