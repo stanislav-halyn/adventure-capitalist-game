@@ -15,7 +15,7 @@
     "profit": 30,
     "upgradePriceMultiplier": 0.07,
     "gainCapitalDurationMs": 3000,
-    "managerPrice": 30
+    "managerPrice": 30000
   },
   {
     "id": 2,
