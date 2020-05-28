@@ -30,18 +30,30 @@ type ErrorHandler = HandlerArgs & {
 
 
 // Handlers
-const handleGetGameInfo = ({ client, playerInstance, payload }: GetGameInfoHandler): void => {
+const handleGetGameInfo = ({
+  client, playerInstance, payload
+}: GetGameInfoHandler): void => {
   emitGetUserInfo({ client, playerInstance });
-  emitGetBusinessInfo({ client, playerInstance, payload })
-}
+  emitGetBusinessInfo({
+    client, playerInstance, payload
+  });
+};
 
-const handleGetBusinessInfo = ({ client, playerInstance, payload }: GetGameInfoHandler): void => {
-  emitGetBusinessInfo({ client, playerInstance, payload })
-}
+const handleGetBusinessInfo = ({
+  client, playerInstance, payload
+}: GetGameInfoHandler): void => {
+  emitGetBusinessInfo({
+    client, playerInstance, payload
+  });
+};
 
-const handlePlayerError = ({ client, playerInstance, payload }: ErrorHandler): void => {
-  emitPlayerError({ client, playerInstance, payload })
-}
+const handlePlayerError = ({
+  client, playerInstance, payload
+}: ErrorHandler): void => {
+  emitPlayerError({
+    client, playerInstance, payload
+  });
+};
 
 
 // Config
@@ -58,11 +70,13 @@ export const setupPlayerHandlers = ({
   client,
   playerInstance
 }: SetupSubscribersBaseArgs): void => {
-  playerHandlersConfig.forEach(handlerConfig => {
+  playerHandlersConfig.forEach((handlerConfig) => {
     const { eventName, handler } = handlerConfig;
 
     playerInstance.addEventListener(eventName, (payload: PLayerBusinessEventPayloadType) => {
-      handler({ client, playerInstance, payload });
+      handler({
+        client, playerInstance, payload
+      });
     });
   });
 };

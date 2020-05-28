@@ -9,7 +9,7 @@ export const subscribeTo = <T>(
   handler: (args: T) => void
 ): void => {
   client.on(eventName, handler);
-}
+};
 
 
 export const unsubscribe = <T>(
@@ -18,7 +18,7 @@ export const unsubscribe = <T>(
   handler: (args: T) => void
 ): void => {
   client.removeListener(eventName, handler);
-}
+};
 
 
 export const emit = <T>(
@@ -27,7 +27,7 @@ export const emit = <T>(
   payload?: T
 ): void => {
   client.emit(eventName, payload);
-}
+};
 
 
 export const setupSocketSubscribers = ({
@@ -35,9 +35,11 @@ export const setupSocketSubscribers = ({
   socketHandlersConfig,
   playerInstance
 }: SetupSocketSubscribersArgs): void => {
-  socketHandlersConfig.forEach(socketHandler => {
+  socketHandlersConfig.forEach((socketHandler) => {
     subscribeTo(client, socketHandler.eventName, (payload?: unknown) => {
-      socketHandler.handler({ client, playerInstance, payload });
+      socketHandler.handler({
+        client, playerInstance, payload
+      });
     });
   });
 };

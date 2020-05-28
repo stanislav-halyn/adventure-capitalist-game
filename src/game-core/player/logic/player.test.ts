@@ -22,7 +22,7 @@ jest.mock('events');
 
 
 jest.mock('../../business', () => {
-  const { Business } = jest.requireActual('../../business');
+  const { Business } = jest.requireActual('../../business'); // eslint-disable-line
 
   return {
     Business,
@@ -168,7 +168,7 @@ describe('#player.test.ts', () => {
 
       expect(business)
         .toBeUndefined();
-    })
+    });
   });
 
 
@@ -327,7 +327,7 @@ describe('#player.test.ts', () => {
         .mockImplementationOnce(() => 150);
 
       const gainCapitaSpy = jest.spyOn(Business.prototype, 'gainCapital');
-      gainCapitaSpy.mockImplementation(cb => cb(10));
+      gainCapitaSpy.mockImplementation((cb) => cb(10));
 
       const playerBusinessEventPayload = {};
       (formatPlayerBusinessEventPayload as jest.Mock).mockReturnValue(playerBusinessEventPayload);

@@ -29,7 +29,7 @@ const handleGetBusinessList = ({ client, playerInstance }: HandlerArgs): void =>
 // Config
 const socketHandlersConfig: HandlersConfig<GameActions> = [
   { eventName: GameActions.GET_USER_INFO, handler: handleUpdateUserInfo },
-  { eventName: GameActions.GET_BUSINESS_LIST, handler: handleGetBusinessList },
+  { eventName: GameActions.GET_BUSINESS_LIST, handler: handleGetBusinessList }
 ];
 
 
@@ -37,5 +37,7 @@ export const setupGameInfoSocketHandlers = ({
   client,
   playerInstance
 }: SetupSubscribersBaseArgs): void => {
-  setupSocketSubscribers({ client, playerInstance, socketHandlersConfig });
+  setupSocketSubscribers({
+    client, playerInstance, socketHandlersConfig
+  });
 };

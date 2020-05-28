@@ -13,17 +13,20 @@ import { BusinessErrors } from '../constants/error.constants';
 
 
 class Business implements IBusiness {
-  private _id:  BusinessIdType;
+  private _id: BusinessIdType;
 
   private _priceMultiplier: number;
+
   private _price: number;
 
   private _managerPrice: number;
 
   private _title: string;
+
   private _level: number;
 
   private _profit: number;
+
   private _initialProfit: number;
 
   private _gainCapitalDurationMs: number;

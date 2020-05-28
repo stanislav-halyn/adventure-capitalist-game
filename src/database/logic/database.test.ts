@@ -18,7 +18,7 @@ describe('#database.test.ts', () => {
     expect(businessesConfigs)
       .toBeInstanceOf(Array);
 
-      expect(businessesConfigs)
+    expect(businessesConfigs)
       .toHaveLength(1);
   });
 

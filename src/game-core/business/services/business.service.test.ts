@@ -15,7 +15,7 @@ beforeEach(() => {
   jest.clearAllMocks();
   jest.resetAllMocks();
   jest.restoreAllMocks();
-})
+});
 
 describe('#business.service.test.ts', () => {
   const businessId = 0;
@@ -28,7 +28,7 @@ describe('#business.service.test.ts', () => {
     upgradePriceMultiplier: 0.07,
     gainCapitalDurationMs: 1000,
     managerPrice: 3000
-  }
+  };
 
 
   test('.getListOfBusinessesConfigs()', () => {

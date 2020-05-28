@@ -60,7 +60,7 @@ describe('business.test.ts', () => {
     businessInstance.upgrade();
 
     expect(businessInstance.profit)
-    .toEqual(6);
+      .toEqual(6);
 
     expect(businessInstance.level)
       .toEqual(3);

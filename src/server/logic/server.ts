@@ -30,7 +30,7 @@ export const startServer = async (port: number): Promise<void> => {
   });
 
 
-  io.on('connection', client => {
+  io.on('connection', (client) => {
     const clientId = getClientId(client);
 
     let playerInstance = clientsMap.get(clientId);
@@ -51,7 +51,7 @@ export const startServer = async (port: number): Promise<void> => {
       playerInstance?.removeAllListeners();
       client.removeAllListeners();
     });
-  })
+  });
 
   server.listen(port, () => {
     console.log(`Listening on ${port} port`);

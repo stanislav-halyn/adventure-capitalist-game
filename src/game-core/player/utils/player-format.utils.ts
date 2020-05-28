@@ -6,7 +6,7 @@ import { PlayerBusinessType, PLayerBusinessEventPayloadType } from '../typings/p
 
 type OptionalBusinessFields
   = 'level' | 'isGainingCapital' | 'startGainCapitalTimestamp' | 'isBought' | 'isManaged';
-type FormatBusinessConfigType = Optional<PlayerBusinessType, OptionalBusinessFields>
+type FormatBusinessConfigType = Optional<PlayerBusinessType, OptionalBusinessFields>;
 
 type FormatBusinessArguments<T> = {
   business: Extract<T, FormatBusinessConfigType>,
@@ -19,18 +19,18 @@ export const formatBusiness = <T> ({
   isManaged = false,
   isBought = false
 }: FormatBusinessArguments<T>): PlayerBusinessType => ({
-  id: business.id,
-  title: business.title,
-  profit: business.profit,
-  level: business.level || 0,
-  price: business.price,
-  gainCapitalDurationMs: business.gainCapitalDurationMs,
-  isGainingCapital: business.isGainingCapital || false,
-  startGainCapitalTimestamp: business.startGainCapitalTimestamp || null,
-  managerPrice: business.managerPrice,
-  isManaged,
-  isBought
-});
+    id: business.id,
+    title: business.title,
+    profit: business.profit,
+    level: business.level || 0,
+    price: business.price,
+    gainCapitalDurationMs: business.gainCapitalDurationMs,
+    isGainingCapital: business.isGainingCapital || false,
+    startGainCapitalTimestamp: business.startGainCapitalTimestamp || null,
+    managerPrice: business.managerPrice,
+    isManaged,
+    isBought
+  });
 
 
 export const formatPlayerBusinessEventPayload = (
