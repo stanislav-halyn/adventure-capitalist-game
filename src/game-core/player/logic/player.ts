@@ -40,7 +40,7 @@ class Player implements IPlayer {
   constructor(id: PlayerIdType, initialCapital?: number) {
     this._id = id;
 
-    this._capital = initialCapital || 100;
+    this._capital = initialCapital || 20;
   }
 
 
