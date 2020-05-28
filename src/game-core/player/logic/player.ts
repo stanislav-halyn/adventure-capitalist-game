@@ -56,6 +56,16 @@ class Player implements IPlayer {
   }
 
 
+  removeEventListener<T>(eventName: PlayerEventNames, handler: (args: T) => void): void {
+    this._eventEmitter.removeListener(eventName, handler);
+  }
+
+
+  removeAllListeners(): void {
+    this._eventEmitter.removeAllListeners();
+  }
+
+
   getAllBusinessesList(): Array<PlayerBusinessType> {
     const businessesConfigs = BusinessService.getListOfBusinessesConfigs();
 
