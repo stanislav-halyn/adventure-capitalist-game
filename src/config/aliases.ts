@@ -8,5 +8,5 @@ const rootFolder = process.env.NODE_ENV === 'development'
 
 const rootPath = path.resolve(__dirname, '..', '..', rootFolder);
 moduleAlias.addAliases({
-  '@src': rootPath,
+  '@src': rootPath
 });

@@ -40,4 +40,4 @@ export interface IPlayer {
 
 export type PLayerBusinessEventPayloadType = {
   businessId: BusinessIdType
-}
+};

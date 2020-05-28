@@ -29,7 +29,7 @@ export type HandlerArgs = {
   client: Socket,
   playerInstance: IPlayer
   payload: any // eslint-disable-line
-}
+};
 
 
 export type HandlerConfig<T> = {
@@ -38,4 +38,4 @@ export type HandlerConfig<T> = {
 };
 
 
-export type HandlersConfig<T = string> = Array<HandlerConfig<T>>
+export type HandlersConfig<T = string> = Array<HandlerConfig<T>>;

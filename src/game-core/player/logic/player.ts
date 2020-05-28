@@ -10,7 +10,9 @@ import {
 } from '../../business';
 
 // Typings
-import { IPlayer, PlayerIdType, PlayerBusinessType } from '../typings';
+import {
+  IPlayer, PlayerIdType, PlayerBusinessType
+} from '../typings';
 
 // Constants
 import { PlayerEventNames } from '../constants/player.constants';
@@ -28,9 +30,9 @@ class Player implements IPlayer {
 
   private _capital: number;
 
-  private _businessesMap = new Map<BusinessIdType, IBusiness>()
+  private _businessesMap = new Map<BusinessIdType, IBusiness>();
 
-  private _managersMap = new Map<BusinessIdType, boolean>()
+  private _managersMap = new Map<BusinessIdType, boolean>();
 
   private _eventEmitter = new EventEmitter();
 
@@ -69,7 +71,7 @@ class Player implements IPlayer {
   getAllBusinessesList(): Array<PlayerBusinessType> {
     const businessesConfigs = BusinessService.getListOfBusinessesConfigs();
 
-    const result = businessesConfigs.map(config => (
+    const result = businessesConfigs.map((config) => (
       formatBusiness({
         business: this._getBusiness(config.id) || config,
         isManaged: this.isBusinessManaged(config.id),
@@ -127,7 +129,7 @@ class Player implements IPlayer {
   hireManager(businessId: BusinessIdType): void {
     this._safeAction(() => {
       this._hireManager(businessId);
-    })
+    });
   }
 
   private _safeAction<T>(action: () => T): T | undefined {
@@ -137,8 +139,6 @@ class Player implements IPlayer {
       return result;
     } catch (err) {
       this._eventEmitter.emit(PlayerEventNames.ERROR, err.toString());
-
-      return;
     }
   }
 
@@ -149,7 +149,7 @@ class Player implements IPlayer {
       business: this._getBusiness(businessId) || businessConfig,
       isManaged: this.isBusinessManaged(businessId),
       isBought: this.isOwnerOfBusiness(businessId)
-    })
+    });
 
     return result;
   }
@@ -213,7 +213,7 @@ class Player implements IPlayer {
 
       this.isBusinessManaged(businessId) && this.gainCapital(businessId);
     });
-  }
+  };
 
   private _getBusinessConfigSave(businessId: BusinessIdType) {
     const businessConfig = BusinessService.getBusinessConfigById(businessId);

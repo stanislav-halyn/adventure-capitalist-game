@@ -60,5 +60,7 @@ export const setupBusinessSocketHandlers = ({
   client,
   playerInstance
 }: SetupSubscribersBaseArgs): void => {
-  setupSocketSubscribers({ client, playerInstance, socketHandlersConfig });
+  setupSocketSubscribers({
+    client, playerInstance, socketHandlersConfig
+  });
 };

@@ -6,12 +6,12 @@ import BusinessesData from '../config/businesses-data.json';
 
 
 class DataBase {
-  static getListOfBusinessesConfigs(): Array<BusinessConfigType>  {
+  static getListOfBusinessesConfigs(): Array<BusinessConfigType> {
     return BusinessesData;
   }
 
   static getBusinessConfigById(businessId: BusinessIdType): BusinessConfigType | undefined {
-    const businessConfig = BusinessesData.find(config => config.id === businessId);
+    const businessConfig = BusinessesData.find((config) => config.id === businessId);
 
     return businessConfig;
   }
