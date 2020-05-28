@@ -82,6 +82,31 @@ describe('#player.test.ts', () => {
   });
 
 
+  test('.removeEventListener()', () => {
+    const removeEventListenerSpy = jest.spyOn(EventEmitter.prototype, 'removeListener');
+
+    const playerInstance = new Player(playerId);
+    const handler = () => 1;
+
+    playerInstance.removeEventListener(PlayerEventNames.BUY_BUSINESS, handler);
+
+    expect(removeEventListenerSpy)
+      .toBeCalledWith(PlayerEventNames.BUY_BUSINESS, handler);
+  });
+
+
+  test('.removeAllListeners()', () => {
+    const removeAllListenersSpy = jest.spyOn(EventEmitter.prototype, 'removeAllListeners');
+
+    const playerInstance = new Player(playerId);
+
+    playerInstance.removeAllListeners();
+
+    expect(removeAllListenersSpy)
+      .toBeCalled();
+  });
+
+
   test('.getAllBusinessesList()', () => {
     BusinessService.getListOfBusinessesConfigs = jest.fn(() => [businessConfig]);
 

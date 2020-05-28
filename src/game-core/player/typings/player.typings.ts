@@ -25,6 +25,8 @@ export interface IPlayer {
   id: PlayerIdType
   capital: number
   addEventListener: <T>(eventName: PlayerEventNames, handler: (payload: T) => void) => void
+  removeEventListener: <T>(eventName: PlayerEventNames, handler: (payload: T) => void) => void
+  removeAllListeners: () => void
   getAllBusinessesList: () => Array<PlayerBusinessType>
   getBusinessById: (businessId: BusinessIdType) => PlayerBusinessType | undefined
   hasEnoughMoney: (price: number) => boolean
