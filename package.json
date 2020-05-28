@@ -1,0 +1,71 @@
+{
+  "name": "adventure-capitalist-game",
+  "version": "0.0.0",
+  "description": "Adventure Capitalist is an idle business sim-game. The basic idea is to purchase a business, win capital from that business, upgrade the business and then purchase more businesses.",
+  "main": "./dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stanislav-halyn/adventure-capitalist-game.git"
+  },
+  "author": "Stanislav Halyn <stasgalin@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stanislav-halyn/adventure-capitalist-game/issues"
+  },
+  "homepage": "https://github.com/stanislav-halyn/adventure-capitalist-game#readme",
+  "scripts": {
+    "start": "NODE_ENV=production node ./dist/index.js",
+    "build": "npm run build-ts",
+    "start:dev": "NODE_ENV=development npm run watch-node",
+    "build-ts": "tsc",
+    "watch-ts": "tsc --watch",
+    "watch-node": "nodemon ./src/index.ts",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "test": "jest ./src --passWithNoTests --config ./config/jest/jest.config.js",
+    "test:watch": "jest ./src --watch --passWithNoTests --config ./config/jest/jest.config.js"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS -g './config/git/commitlint.js'"
+    }
+  },
+  "engines": {
+    "node": ">11.15.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "7.8.3",
+    "@babel/preset-env": "7.9.6",
+    "@babel/preset-typescript": "7.9.0",
+    "@commitlint/cli": "8.3.5",
+    "@types/jest": "25.2.3",
+    "@types/module-alias": "2.0.0",
+    "@types/socket.io": "2.1.8",
+    "@typescript-eslint/eslint-plugin": "3.0.0",
+    "@typescript-eslint/parser": "3.0.0",
+    "babel-jest": "26.0.1",
+    "cz-customizable": "6.2.0",
+    "eslint": "7.1.0",
+    "eslint-config-airbnb-typescript": "7.2.1",
+    "eslint-plugin-import": "2.20.2",
+    "husky": "4.2.5",
+    "jest": "26.0.1",
+    "nodemon": "2.0.4",
+    "ts-jest": "26.0.0",
+    "ts-node": "8.10.1",
+    "typescript": "3.9.3"
+  },
+  "dependencies": {
+    "dotenv": "8.2.0",
+    "module-alias": "2.2.2",
+    "socket.io": "2.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "config/git/commitizen.js"
+    }
+  }
+}
