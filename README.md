@@ -64,7 +64,7 @@ or
 In order to build the production version, run:
 
 ```
-  npm run build-ts
+  npm run build
 ```
 
 # Linters
