@@ -48,6 +48,7 @@ export const startServer = async (port: number): Promise<void> => {
 
 
     client.on('disconnect', () => {
+      playerInstance?.removeAllListeners();
       client.removeAllListeners();
     });
   })
