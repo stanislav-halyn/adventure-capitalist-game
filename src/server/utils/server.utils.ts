@@ -17,6 +17,11 @@ export const handlePreflightRequest = (req: http.IncomingMessage, res: http.Serv
 
 export const getClientId = (client: Socket): string => {
   const header = client.handshake.headers.authorization;
+
+  if (!header) {
+    return '';
+  }
+
   const [, clientId] = header.split(' ');
 
   return clientId;

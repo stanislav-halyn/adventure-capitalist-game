@@ -64,7 +64,7 @@ or
 In order to build the production version, run:
 
 ```
-  npm run build-ts
+  npm run build
 ```
 
 # Linters
@@ -135,3 +135,10 @@ Also, the server listens to the following socket events(all type definitions for
 
   > Note. 
     After one of `GAME:buy-business`, `GAME:upgrade-business`, `GAME:gain-capital` or `GAME:hire-manager` events - the server will emit `GAME:get-business-info` event in order to update the state on client.
+
+
+# Note
+
+In this implementation of the game server, we are saving all user instances in the server instance memory.
+This approach has one very big disadvantage: every time we deploy on the server - the users will lose their progress. This needs to be fixed using DB and allowing to init player instance with initial business data.
+It wasn't implemented due to lack of time.
