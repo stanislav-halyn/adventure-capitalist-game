@@ -55,6 +55,7 @@
     "typescript": "3.9.3"
   },
   "dependencies": {
+    "dotenv": "8.2.0",
     "module-alias": "2.2.2",
     "socket.io": "2.3.0"
   },

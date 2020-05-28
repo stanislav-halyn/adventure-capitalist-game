@@ -1,6 +1,12 @@
+import path from 'path';
+import dotenv from 'dotenv';
+
 import { startServer } from '@src/server';
 
-const PORT_ENV = process.env.PORT as number | undefined;
+// Init .env variables
+dotenv.config({ path: path.join(__dirname, '../.env') });
 
-startServer(PORT_ENV || 3000)
+const PORT = +(process.env.PORT || 3000);
+
+startServer(PORT)
   .catch(console.log);
