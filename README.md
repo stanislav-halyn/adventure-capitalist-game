@@ -56,7 +56,7 @@ Now to run the project in dev or prod mode, run the following command:
 or 
 
 ```
-  npm run start:prod
+  npm start
 ```
 
 
