@@ -56,15 +56,8 @@ Now to run the project in dev or prod mode, run the following command:
 or 
 
 ```
-  npm start
-```
-
-
-
-In order to build the production version, run:
-
-```
   npm run build
+  npm start
 ```
 
 # Linters
